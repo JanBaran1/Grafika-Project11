@@ -29,9 +29,11 @@ class GUIMyFrame1 : public MyFrame1
 		GUIMyFrame1( wxWindow* parent );
 	//// end generated class members
 		wxImage MyImage;
+		wxImage ImageCpy;
 		wxBitmap MyBitmap;
 
-		void DrawPicture(wxPaintEvent& e);
+		//void DrawPicture(wxPaintEvent& e);
+		void DrawPicture();
 
 
 

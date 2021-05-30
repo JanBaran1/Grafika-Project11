@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Janek\Downloads\wxWidgets-3.0.5-2019\include;C:\Users\Janek\Downloads\wxWidgets-3.0.5-2019\include\msvc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Janek\Downloads\wxWidgets-3.0.5-2019\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\wxWidgets-3.0.5-2019\include;C:\wxWidgets-3.0.5-2019\include\msvc;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\wxWidgets-3.0.5-2019\lib\vc_x64_lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
