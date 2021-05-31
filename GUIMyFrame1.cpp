@@ -5,7 +5,7 @@ GUIMyFrame1::GUIMyFrame1( wxWindow* parent )
 :
 MyFrame1( parent )
 {
-    //Bind(wxEVT_PAINT, &GUIMyFrame1::DrawPicture, this);
+    //Bind(wxEVT_PAINT, &GUIMyFrame1::DrawPicture, this);lll
     //SetBackgroundStyle(wxBG_STYLE_PAINT);
     MyImage.AddHandler(new wxJPEGHandler);
     MyImage.AddHandler(new wxPNGHandler);
