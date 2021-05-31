@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ColoursHexagon.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="GUIMyFrame1.cpp" />
     <ClCompile Include="main.cpp" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClInclude Include="GUI.h" />
     <ClInclude Include="GUIMyFrame1.h" />
+    <ClInclude Include="ColoursHexagon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
