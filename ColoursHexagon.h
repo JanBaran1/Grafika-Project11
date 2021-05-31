@@ -1,9 +1,12 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include <wx/colour.h>
 #include <wx/control.h>
 #include <wx/dcscreen.h>
 #include <wx/dcclient.h>
 #include <wx/panel.h>
+
+
 
 class Hexagon : public wxPanel {
 	public:
