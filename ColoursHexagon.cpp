@@ -11,106 +11,150 @@
 #include "ColoursHexagon.h"
 
 #define MAX_COLOUR_VALUE 255
+#define DEGREE (2 * M_PI / 360)
 
 
-/*BEGIN_EVENT_TABLE(ColorsHexagon, wxPanel)
-	EVT_LEFT_DOWN(ColorsHexagon::leftClick)
-	EVT_PAINT(ColorsHexagon::paintEvent)
-END_EVENT_TABLE()*/
+wxBEGIN_EVENT_TABLE(Hexagon, wxPanel)
+	EVT_LEFT_DOWN(Hexagon::leftClick)
+	EVT_PAINT(Hexagon::DrawHexagon)
+wxEND_EVENT_TABLE()
 
-Hexagon::Hexagon(wxPanel* parent) : //skoñczone
+Hexagon::Hexagon(wxPanel* parent) : //do zmiany na kolor t³a
 wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(m_width, m_height)),
 m_parent(parent),
 m_windowDC(new wxWindowDC(this)){
 
-	this->m_image.Create(m_width, m_height);
+	m_image.Create(m_width, m_height);
 
 	for (int i = 0; i < m_width; i++)
 		for (int j = 0; j < m_height; j++)
-			this->m_image.SetRGB(i, j, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE);
+			m_image.SetRGB(i, j, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE);
 }
 
-Hexagon::Hexagon(wxPanel* parent, wxControl* control, wxColour* colour) : //skoñczone
+Hexagon::Hexagon(wxPanel* parent, wxControl* control, wxColour* colour) : //do zmiany na kolor t³a
 wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(m_width, m_height)),
 m_parent(parent),
 m_reactControl(control),
 m_colour(colour),
 m_windowDC(new wxWindowDC(this)){
-	this->m_image.Create(m_width, m_height);
+	m_image.Create(m_width, m_height);
 
 	for (int i = 0; i < m_width; i++)
 		for (int j = 0; j < m_height; j++)
-			this->m_image.SetRGB(i, j, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE);
+			m_image.SetRGB(i, j, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE);
 }
 
-/*Hexagon::~Hexagon() { //chyba skoñczone
-
-}*/ //jeœli dobrze rozumiem to u¿ytkownik nie musi deklarowaæ destruktora
-
-void Hexagon::paintEvent(wxPaintEvent& event) { //do poprawy
+void Hexagon::DrawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy bêdziemy wyœwietlaæ
 	wxPaintDC paintDC(this);
 	wxMemoryDC memoryDC;
 
-	double step_x = MAX_COLOUR_VALUE / 110;
-	double step_y = MAX_COLOUR_VALUE / 70;
+	double step = (double) MAX_COLOUR_VALUE / 200;
 
 	//red square
 	wxImage redSquare;
 	redSquare.Create(200, 200);
 	redSquare.SetMask(true); //obiekt nie jest widoczny
 
-	for (int i = 0; i < 70; i++)
-		for (int j = 0; j < 110; j++)
-			redSquare.SetRGB(j, i + j / 2, MAX_COLOUR_VALUE, 255 - step_x * i, step_y * j);
+	for (int i = 0; i < 200; i++)
+		for (int j = 0; j < 200; j++)
+			redSquare.SetRGB(i, j, MAX_COLOUR_VALUE, step * i, step * j);
 
 	//green square
 	wxImage greenSquare;
-	greenSquare.Create(200, 400);
+	greenSquare.Create(200, 200);
 	greenSquare.SetMask(true);
 
-	for (int i = 0; i < 70; i++)
-		for (int j = 0; j < 110; j++)
-			redSquare.SetRGB(j, i + j / 2, 255 - step_x * i, MAX_COLOUR_VALUE, step_y * j);
+	for (int i = 0; i < 200; i++)
+		for (int j = 0; j < 200; j++)
+			redSquare.SetRGB(i, j, step * i, MAX_COLOUR_VALUE, step * j);
 
 	//blue square
 	wxImage blueSquare;
-	blueSquare.Create(100, 100);
+	blueSquare.Create(200, 200);
 	blueSquare.SetMask(true);
 
-	for (int i = 0; i < 70; i++)
-		for (int j = 0; j < 110; j++)
-			redSquare.SetRGB(j, i + j / 2, 255 - step_x * i, MAX_COLOUR_VALUE, step_y * j);
+	for (int i = 0; i < 200; i++)
+		for (int j = 0; j < 200; j++)
+			redSquare.SetRGB(i, j, step * i, step * j, MAX_COLOUR_VALUE);
 
-	redSquare = redSquare.Rotate(45 * 2 * M_PI / 360, wxPoint(50, 50)); //obrót w radianach
+	//obroty i skalowanie do poprawy, ¿eby by³y odpowiednie wartoœci
+	redSquare = redSquare.Rotate(45 * DEGREE, wxPoint(50, 50));
 	redSquare = redSquare.Scale(145, 85);
 
-	greenSquare = greenSquare.Rotate(45 * 2 * M_PI / 360, wxPoint(50, 50)); //obrót w radianach
+	greenSquare = greenSquare.Rotate(45 * DEGREE, wxPoint(50, 50));
 	greenSquare = greenSquare.Scale(145, 85);
+	greenSquare = greenSquare.Rotate(60 * DEGREE, wxPoint(50, 50));
 
-	blueSquare = blueSquare.Rotate(45 * 2 * M_PI / 360, wxPoint(50, 50)); //obrót w radianach
+	blueSquare = blueSquare.Rotate(45 * DEGREE, wxPoint(50, 50));
 	blueSquare = blueSquare.Scale(145, 85);
+	blueSquare = blueSquare.Rotate(120 * DEGREE, wxPoint(50, 50));
 
-	m_bitmap = wxBitmap(this->m_image);
+	m_bitmap = wxBitmap(m_image);
 	memoryDC.SelectObject(m_bitmap);
-	memoryDC.DrawBitmap(wxBitmap(redSquare), 28, 7, true);
-	memoryDC.DrawBitmap(wxBitmap(greenSquare), 100, 20, true);
-	memoryDC.DrawBitmap(wxBitmap(blueSquare), 30, 50, true);
-
+	memoryDC.DrawBitmap(wxBitmap(redSquare), 30, 10, true);
+	memoryDC.DrawBitmap(wxBitmap(greenSquare), 100, 60, true);
+	memoryDC.DrawBitmap(wxBitmap(blueSquare), 30, 60, true);
+	paintDC.Blit(0, 0, m_width, m_height, &memoryDC, 0, 0, wxCOPY, true);
 }
 
-void Hexagon::leftClick(wxMouseEvent& event) { //do zrobienia
+void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
+	int mouseX = wxGetMousePosition().x - this->GetScreenPosition().x;
+	int mouseY = wxGetMousePosition().y - this->GetScreenPosition().y;
 
+	int windowX = this->GetPosition().x;
+	int windowY = this->GetPosition().y;
+
+	int hexagonEndX = windowX + m_width;
+	int hexagonEndY = windowY + m_height;
+
+	//if jest do poprawy, ¿eby nie ³apaæ t³a
+	if (mouseX < hexagonEndX && mouseY < hexagonEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y) {
+		setPointerPosition(mouseX, mouseY);
+
+		wxColour colour;
+		m_windowDC->GetPixel(mouseX, mouseY, &colour);
+
+		m_selectedColour = colour;
+
+		if (m_reactControl != nullptr) {
+			m_colour->SetRGB(colour.GetRGB());
+			m_reactControl->SetForegroundColour(colour);
+			m_reactControl->Refresh();
+		}
+
+		m_parent->Refresh();
+	}
 }
 
-wxColor Hexagon::getSelectedColour() { //skoñczone
-	return this->m_selectedColour;
+wxColour Hexagon::getSelectedColour() { //skoñczone
+	return m_selectedColour;
 }
 
-void Hexagon::setSelectedColour(const wxColour& colour) { //do zrobienia
+void Hexagon::setSelectedColour(const wxColour& sear_colour) { //do zrobienia
+	wxImage image = m_bitmap.ConvertToImage();
+	wxColour curr_colour;
+	if (this->getSelectedColour() != sear_colour) {
+		for (int multi = 1; multi < 11; multi++) { // skoro nie ma skalowanie to byæ mo¿e ten for nie bêdzie potrzeby
+			for (int i = 0; i < m_width; i++) {
+				for (int j = 0; j < m_height; j++) {
+					curr_colour.Set(image.GetRed(i, j), image.GetGreen(i, j), image.GetBlue(i, j));
+					if (curr_colour == sear_colour
+						|| (abs(curr_colour.Red() - sear_colour.Red()) < (10 * multi)
+							&& (abs(curr_colour.Green() - sear_colour.Green())) < (10 * multi)
+							&& (abs(curr_colour.Blue() - sear_colour.Blue())) < (10 * multi))) {
+						setPointerPosition(i, j);
+						m_selectedColour = sear_colour;
+						this->Refresh();
+						break;
+					}
+				}
+			}
+		}
+	}
 
 }
 
 void Hexagon::setPointerPosition(int pos_x, int pos_y) { //skoñczone
-	this->m_ptrPosition_x = pos_x;
-	this->m_ptrPosition_y = pos_y;
+	m_ptrPosition_x = pos_x;
+	m_ptrPosition_y = pos_y;
 }

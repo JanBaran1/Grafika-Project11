@@ -12,16 +12,14 @@ class Hexagon : public wxPanel {
 	public:
 		Hexagon(wxPanel* parent);
 		Hexagon(wxPanel* parent, wxControl* control, wxColour* colour);
-		//~Hexagon(); jeœli dobrze rozumiem to u¿ytkownik nie musi deklarowaæ destruktora
 
-		void paintEvent(wxPaintEvent& event);
+		//
+		void DrawHexagon(wxPaintEvent& event);
 		void leftClick(wxMouseEvent& event);
 
 		wxColour getSelectedColour();
 		void setSelectedColour(const wxColour& colour);
 		void setPointerPosition(int pos_x, int pos_y);
-
-		//DECLARE_EVENT_TABLE()
 
 	private:
 		static const int m_width = 200;
@@ -40,5 +38,5 @@ class Hexagon : public wxPanel {
 		int m_ptrPosition_x = m_width / 2;
 		int m_ptrPosition_y = m_height / 2;
 
-
+		wxDECLARE_EVENT_TABLE();
 };
