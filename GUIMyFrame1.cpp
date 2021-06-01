@@ -77,7 +77,7 @@ wxLogError("Cannot save current contents in file '%s'.", wxSaveFileDialog1->GetP
 return;
 }
 else
-MyImage.SaveFile(output_stream, "image/jpeg");
+ImageCpy.SaveFile(output_stream, "image/jpeg");
 }
 
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
@@ -94,7 +94,7 @@ void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider3OnScroll
     //Brightness((m_slider3->GetValue() -50)/50. * 200 );
-    bright = (m_slider3->GetValue() - 50) / 50. * 200;
+    bright = (m_slider3->GetValue() - 50) / 50. * 150;
     //Repaint();
     DrawPicture(bright);
 }
