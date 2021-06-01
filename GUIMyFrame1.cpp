@@ -26,8 +26,8 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-//DrawPicture();
-    Repaint();
+    DrawPicture(bright);
+    //Repaint();
 }
 
 void GUIMyFrame1::m_panel4OnUpdateUI( wxUpdateUIEvent& event )
@@ -56,7 +56,7 @@ wxImage TempImg(MyImage);
 ImageCpy = TempImg;
 ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
 MyBitmap = wxBitmap(ImageCpy);
-DrawPicture();
+DrawPicture(bright);
 }
 if (MyBitmap.Ok()) this->SetTitle(WxOpenFileDialog1->GetFilename());
 Refresh();
@@ -93,9 +93,10 @@ void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
 void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider3OnScroll
-    Brightness(m_slider3->GetValue() -50 );
-    Repaint();
-  // DrawPicture();
+    //Brightness((m_slider3->GetValue() -50)/50. * 200 );
+    bright = (m_slider3->GetValue() - 50) / 50. * 200;
+    //Repaint();
+    DrawPicture(bright);
 }
 
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
@@ -126,7 +127,7 @@ void GUIMyFrame1::DrawColour()
     if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0);
 }
       */
-void GUIMyFrame1::DrawPicture()
+void GUIMyFrame1::DrawPicture(int bright)
 {
     //wxAutoBufferedPaintDC MyDC(m_panel3);
     wxClientDC MyDC(m_panel3);
@@ -135,6 +136,7 @@ void GUIMyFrame1::DrawPicture()
     {
         ImageCpy = MyImage;
         ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+        Brightness(bright);
         MyBitmap = wxBitmap(ImageCpy);
     }
     buffDC.Clear();
@@ -148,7 +150,7 @@ void GUIMyFrame1::DrawPicture()
 void GUIMyFrame1::Brightness(int value)
 {
     // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
-    ImageCpy = MyImage.Copy();
+    //ImageCpy = MyImage.Copy();
     unsigned char* piks = ImageCpy.GetData();
 
     int rozmiar = 3* ImageCpy.GetWidth() * ImageCpy.GetHeight();
