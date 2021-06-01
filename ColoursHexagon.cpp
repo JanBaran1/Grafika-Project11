@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <math.h>
 #include <wx/colour.h>
@@ -10,6 +11,7 @@
 #include "ColoursHexagon.h"
 
 #define MAX_COLOUR_VALUE 255
+
 
 /*BEGIN_EVENT_TABLE(ColorsHexagon, wxPanel)
 	EVT_LEFT_DOWN(ColorsHexagon::leftClick)
