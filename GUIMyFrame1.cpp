@@ -26,8 +26,8 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-DrawPicture();
-
+//DrawPicture();
+    Repaint();
 }
 
 void GUIMyFrame1::m_panel4OnUpdateUI( wxUpdateUIEvent& event )
