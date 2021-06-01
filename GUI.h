@@ -37,6 +37,7 @@ class MyFrame1 : public wxFrame
 		wxPanel* m_panel4;
 		wxPanel* m_panel5;
 		wxButton* m_button1;
+		wxButton* m_button2;
 		wxStaticText* m_staticText2;
 		wxSlider* m_slider1;
 		wxStaticText* m_staticText3;
@@ -47,10 +48,13 @@ class MyFrame1 : public wxFrame
 		wxSlider* m_slider4;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void m_panel3Click( wxMouseEvent& event ) { event.Skip(); }
+		virtual void m_panel3OnLeft( wxMouseEvent& event ) { event.Skip(); }
 		virtual void m_panel3OnUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
 		virtual void m_panel4OnUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
 		virtual void m_panel5OnUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
 		virtual void m_button1OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_button2OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_slider1OnScroll( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider2OnScroll( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider3OnScroll( wxScrollEvent& event ) { event.Skip(); }

@@ -52,6 +52,9 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_button1 = new wxButton( this, wxID_ANY, wxT("Wczytaj obrazek"), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer3->Add( m_button1, 0, wxALIGN_CENTER|wxALL, 5 );
 	
+	m_button2 = new wxButton( this, wxID_ANY, wxT("Zapisz obrazek"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer3->Add( m_button2, 0, wxALIGN_CENTER|wxALL, 5 );
+	
 	m_staticText2 = new wxStaticText( this, wxID_ANY, wxT("Proporcjonalność"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText2->Wrap( -1 );
 	bSizer3->Add( m_staticText2, 0, wxALIGN_CENTER|wxALL, 5 );
@@ -90,10 +93,13 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Centre( wxBOTH );
 	
 	// Connect Events
+	m_panel3->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame1::m_panel3Click ), NULL, this );
+	m_panel3->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel3OnLeft ), NULL, this );
 	m_panel3->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel3OnUpdateUI ), NULL, this );
 	m_panel4->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel4OnUpdateUI ), NULL, this );
 	m_panel5->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel5OnUpdateUI ), NULL, this );
 	m_button1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrame1::m_button1OnButtonClick ), NULL, this );
+	m_button2->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrame1::m_button2OnButtonClick ), NULL, this );
 	m_slider1->Connect( wxEVT_SCROLL_TOP, wxScrollEventHandler( MyFrame1::m_slider1OnScroll ), NULL, this );
 	m_slider1->Connect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( MyFrame1::m_slider1OnScroll ), NULL, this );
 	m_slider1->Connect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( MyFrame1::m_slider1OnScroll ), NULL, this );
@@ -135,10 +141,13 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 MyFrame1::~MyFrame1()
 {
 	// Disconnect Events
+	m_panel3->Disconnect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame1::m_panel3Click ), NULL, this );
+	m_panel3->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel3OnLeft ), NULL, this );
 	m_panel3->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel3OnUpdateUI ), NULL, this );
 	m_panel4->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel4OnUpdateUI ), NULL, this );
 	m_panel5->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel5OnUpdateUI ), NULL, this );
 	m_button1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrame1::m_button1OnButtonClick ), NULL, this );
+	m_button2->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrame1::m_button2OnButtonClick ), NULL, this );
 	m_slider1->Disconnect( wxEVT_SCROLL_TOP, wxScrollEventHandler( MyFrame1::m_slider1OnScroll ), NULL, this );
 	m_slider1->Disconnect( wxEVT_SCROLL_BOTTOM, wxScrollEventHandler( MyFrame1::m_slider1OnScroll ), NULL, this );
 	m_slider1->Disconnect( wxEVT_SCROLL_LINEUP, wxScrollEventHandler( MyFrame1::m_slider1OnScroll ), NULL, this );
