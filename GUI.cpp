@@ -11,7 +11,7 @@
 
 MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
-	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	this->SetSizeHints( wxSize( 400,300 ), wxDefaultSize );
 	
 	wxBoxSizer* bSizer1;
 	bSizer1 = new wxBoxSizer( wxHORIZONTAL );
@@ -31,8 +31,8 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
 	
 	m_panel4 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	m_panel4->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
-	m_panel4->SetMinSize( wxSize( 200,-1 ) );
+	m_panel4->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_APPWORKSPACE ) );
+	m_panel4->SetMinSize( wxSize( 200,200 ) );
 	m_panel4->SetMaxSize( wxSize( -1,200 ) );
 	
 	bSizer4->Add( m_panel4, 1, wxEXPAND | wxALL, 5 );
@@ -93,7 +93,6 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	m_panel3->Connect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame1::m_panel3Click ), NULL, this );
 	m_panel3->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel3OnLeft ), NULL, this );
 	m_panel3->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel3OnUpdateUI ), NULL, this );
 	m_panel4->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel4OnUpdateUI ), NULL, this );
@@ -141,7 +140,6 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 MyFrame1::~MyFrame1()
 {
 	// Disconnect Events
-	m_panel3->Disconnect( wxEVT_LEFT_DCLICK, wxMouseEventHandler( MyFrame1::m_panel3Click ), NULL, this );
 	m_panel3->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel3OnLeft ), NULL, this );
 	m_panel3->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel3OnUpdateUI ), NULL, this );
 	m_panel4->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel4OnUpdateUI ), NULL, this );
