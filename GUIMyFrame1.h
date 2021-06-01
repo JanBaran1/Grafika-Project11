@@ -20,10 +20,10 @@ class GUIMyFrame1 : public MyFrame1
 		void m_panel4OnUpdateUI( wxUpdateUIEvent& event );
 		void m_panel5OnUpdateUI( wxUpdateUIEvent& event );
 		void m_button1OnButtonClick( wxCommandEvent& event );
-		void m_slider1OnScroll( wxScrollEvent& event );
-		void m_slider2OnScroll( wxScrollEvent& event );
-		void m_slider3OnScroll( wxScrollEvent& event );
-		void m_slider4OnScroll( wxScrollEvent& event );
+		void m_slider1OnScroll( wxScrollEvent& event );//proporcjonalność
+		void m_slider2OnScroll( wxScrollEvent& event );//siła zmina
+		void m_slider3OnScroll( wxScrollEvent& event );//jasność
+		void m_slider4OnScroll( wxScrollEvent& event );//nasycenie
 	public:
 		/** Constructor */
 		GUIMyFrame1( wxWindow* parent );
@@ -32,6 +32,8 @@ class GUIMyFrame1 : public MyFrame1
 		wxImage ImageCpy;
 		wxBitmap MyBitmap;
 
+		void Brightness(int value); // funkcja zmieniajaca jasnosc obrazka
+		void Repaint();
 		//void DrawPicture(wxPaintEvent& e);
 		void DrawPicture();
 

@@ -13,8 +13,8 @@ MyFrame1( parent )
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-    DrawPicture();
-
+   // DrawPicture();
+    Repaint();
 }
 
 void GUIMyFrame1::m_panel4OnUpdateUI( wxUpdateUIEvent& event )
@@ -63,6 +63,9 @@ void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
 void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider3OnScroll
+    Brightness(m_slider3->GetValue() -50 );
+    Repaint();
+  // DrawPicture();
 }
 
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
@@ -97,5 +100,45 @@ void GUIMyFrame1::DrawPicture()
     m_panel3->PrepareDC(buffDC);
     
 
-    if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0);
+    if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0,true);
 }
+
+
+void GUIMyFrame1::Brightness(int value)
+{
+    // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
+    ImageCpy = MyImage.Copy();
+    unsigned char* piks = ImageCpy.GetData();
+
+    int rozmiar = 3* ImageCpy.GetWidth() * ImageCpy.GetHeight();
+    int k = 0;
+
+    while (k < rozmiar) {
+
+        int tmp = piks[k] + value;
+
+        if (tmp > 255)
+            tmp = 255;
+        else if (tmp < 0)
+            tmp = 0;
+
+        piks[k++] = tmp;
+    }
+}
+
+void GUIMyFrame1::Repaint()
+{
+    //ImageCpy = MyImage;
+    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+   if (MyImage.IsOk())
+   {
+    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+        MyBitmap = wxBitmap(ImageCpy);
+    }
+    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
+    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
+   // wxBufferedDC buffDC(&dc);
+    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
+    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
+}
+
