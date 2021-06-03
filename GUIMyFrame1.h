@@ -36,11 +36,13 @@ class GUIMyFrame1 : public MyFrame1
 		wxBitmap MyBitmap;
 		wxColour ChosenColour;
 		int bright = 0;
+		double sat = 0;
 
 		void Brightness(int value); // funkcja zmieniajaca jasnosc obrazka
 		void Repaint();
+		void Saturation(double value);
 		//void DrawPicture(wxPaintEvent& e);
-		void DrawPicture(int bright);
+		void DrawPicture(int bright,double sat);
 		void DrawColour();
 
 

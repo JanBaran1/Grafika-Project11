@@ -28,7 +28,7 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-    DrawPicture(bright);
+    DrawPicture(bright,sat);
     //Repaint();
 }
 
@@ -58,7 +58,7 @@ void GUIMyFrame1::m_button1OnButtonClick( wxCommandEvent& event )
             ImageCpy = TempImg;
             ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
             MyBitmap = wxBitmap(ImageCpy);
-            DrawPicture(bright);
+            DrawPicture(bright,sat);
         }
         if (MyBitmap.Ok()) this->SetTitle(WxOpenFileDialog1->GetFilename());
         Refresh();
@@ -98,12 +98,15 @@ void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
     //Brightness((m_slider3->GetValue() -50)/50. * 200 );
     bright = (m_slider3->GetValue() - 50) / 50. * 150;
     //Repaint();
-    DrawPicture(bright);
+    DrawPicture(bright,sat);
 }
 
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider4OnScroll
+    sat = ((m_slider4->GetValue()-50)*3) ;
+    //Repaint();
+    DrawPicture(bright,sat);
 }
 
 
@@ -145,7 +148,7 @@ void GUIMyFrame1::Repaint()
     if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
 }
       */
-void GUIMyFrame1::DrawPicture(int bright)
+void GUIMyFrame1::DrawPicture(int bright,double sat)
 {
     //wxAutoBufferedPaintDC MyDC(m_panel3);
     wxClientDC MyDC(m_panel3);
@@ -154,9 +157,13 @@ void GUIMyFrame1::DrawPicture(int bright)
     {
         ImageCpy = MyImage;
         ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+        
         Brightness(bright);
+        Saturation(sat);
         MyBitmap = wxBitmap(ImageCpy);
+        
     }
+    
     buffDC.Clear();
     m_panel3->PrepareDC(buffDC);
     
@@ -186,3 +193,29 @@ void GUIMyFrame1::Brightness(int value)
     }
 }
 
+void GUIMyFrame1::Saturation(double value)
+{
+    // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
+    //ImageCpy = MyImage.Copy();
+    unsigned char* piks = ImageCpy.GetData();
+
+    int rozmiar = 3 * ImageCpy.GetWidth() * ImageCpy.GetHeight();
+    
+    double x = value ;
+    for (unsigned k = 0; k < rozmiar;k+=3) {
+        int szary = (piks[k] + piks[k + 1] + piks[k + 2]) / 3;
+        
+        for (int i = 0; i < 3; i++)
+        {
+           
+            int tmp = szary + (piks[k + i] - szary) *( x/100+1.0);
+
+            if (tmp > 255)
+                tmp = 255;
+            else if (tmp < 0)
+                tmp = 0;
+
+            piks[k + i] = tmp;
+        }
+    }
+}
