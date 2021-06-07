@@ -8,6 +8,9 @@ MyFrame1( parent )
     //SetBackgroundStyle(wxBG_STYLE_PAINT);
     MyImage.AddHandler(new wxJPEGHandler);
     MyImage.AddHandler(new wxPNGHandler);
+    
+    this->hexagon = new Hexagon(m_panel4);
+    //m_panel4->Add(this->hexagon);
 }
 
 void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )

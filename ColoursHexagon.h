@@ -14,7 +14,7 @@ class Hexagon : public wxPanel {
 		Hexagon(wxPanel* parent, wxControl* control, wxColour* colour);
 
 		//
-		void DrawHexagon(wxPaintEvent& event);
+		void drawHexagon(wxPaintEvent& event);
 		void leftClick(wxMouseEvent& event);
 
 		wxColour getSelectedColour();
