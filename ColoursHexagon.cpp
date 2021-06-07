@@ -123,7 +123,7 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 			m_reactControl->Refresh();
 		}
 
-		m_parent->Refresh();
+		//m_parent->Refresh();
 	}
 }
 
