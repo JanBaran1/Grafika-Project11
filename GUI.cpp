@@ -33,7 +33,7 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_panel4 = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	m_panel4->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_APPWORKSPACE ) );
 	m_panel4->SetMinSize( wxSize( 200,260 ) );
-	m_panel4->SetMaxSize( wxSize( -1,200 ) );
+	m_panel4->SetMaxSize( wxSize( -1,260 ) );
 	
 	bSizer4->Add( m_panel4, 1, wxEXPAND | wxALL, 5 );
 	
