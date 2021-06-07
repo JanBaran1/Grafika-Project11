@@ -94,8 +94,8 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	m_bitmap = wxBitmap(m_image);
 	memoryDC.SelectObject(m_bitmap);
 	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 0, true);
-	memoryDC.DrawBitmap(wxBitmap(greenSquare), 50, 26, true);
-	memoryDC.DrawBitmap(wxBitmap(blueSquare), -50, 26, true);
+	memoryDC.DrawBitmap(wxBitmap(greenSquare), 49, 27, true);
+	memoryDC.DrawBitmap(wxBitmap(blueSquare), -49, 27, true);
 	paintDC.Blit(0, 0, m_width, m_height, &memoryDC, 0, 0, wxCOPY, true);
 }
 
