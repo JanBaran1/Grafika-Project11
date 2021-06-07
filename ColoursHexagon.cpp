@@ -79,7 +79,6 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 		for (int j = 0; j < 200; j++)
 			blueSquare.SetRGB(i, j, step * i, step * j, MAX_COLOUR_VALUE);
 
-	//obroty i skalowanie do poprawy, ¿eby by³y odpowiednie wartoœci
 	redSquare = redSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
 	redSquare = redSquare.Scale(200, 115);
 
@@ -100,6 +99,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 }
 
 void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
+	//poprawiæ, ¿eby nie mruga³
 	int mouseX = wxGetMousePosition().x - this->GetScreenPosition().x;
 	int mouseY = wxGetMousePosition().y - this->GetScreenPosition().y;
 
@@ -123,7 +123,7 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 			m_reactControl->Refresh();
 		}
 
-		m_parent->Refresh();
+		//m_parent->Refresh();
 	}
 }
 
