@@ -23,7 +23,7 @@ class Hexagon : public wxPanel {
 
 	private:
 		static const int m_width = 200;
-		static const int m_height = 200;
+		static const int m_height = 260;
 
 		wxColour m_selectedColour;
 		wxWindow* m_parent;
