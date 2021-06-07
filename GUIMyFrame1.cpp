@@ -107,7 +107,7 @@ DrawPicture(bright,sat);
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider4OnScroll
-sat = ((m_slider4->GetValue()-50)*3) ;
+sat = ((m_slider4->GetValue()-50)*2) ;
 //Repaint();
 DrawPicture(bright,sat);
 }
