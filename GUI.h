@@ -34,7 +34,7 @@ class MyFrame1 : public wxFrame
 	
 	protected:
 		wxPanel* m_panel3;
-		wxPanel* m_panel4; //hexagon here
+		wxPanel* m_panel4;
 		wxPanel* m_panel5;
 		wxButton* m_button1;
 		wxButton* m_button2;
