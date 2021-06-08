@@ -38,6 +38,7 @@ class GUIMyFrame1 : public MyFrame1
 		wxImage ImageCpy;
 		wxBitmap MyBitmap;
 		wxColour ChosenColour;
+		Hexagon* hexagon;
 		int bright = 0;
 		double sat = 0;
 		bool CC = 0;
@@ -51,7 +52,7 @@ class GUIMyFrame1 : public MyFrame1
 		void ChangeColour(wxImage *Image);
 
 		//moje zmiany:
-		Hexagon* hexagon;
+		//Hexagon* hexagon;
 
 
 

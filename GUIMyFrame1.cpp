@@ -25,6 +25,7 @@ unsigned int c1 = data[3 * y_position * width + 3 * x_position];
 unsigned int c2 = data[3 * y_position * width + 3 * x_position + 1];
 unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
 ChosenColour = wxColour(c1, c2, c3);
+hexagon->setChosenColour(ChosenColour);
 DrawColour();
 
 }
@@ -67,10 +68,12 @@ wxImage TempImg(ImageOrg);
 //MyImage.Paste(TempImg, MyImage.GetWidth() - 120, 0);
 //MyBitmap = wxBitmap(MyImage);
 MyImage = TempImg;
+hexagon->setImage(MyImage);
 //ImageCpy = TempImg;
 //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
 //MyBitmap = wxBitmap(ImageCpy);
 ChosenColour = wxColor(255, 255, 255);
+hexagon->setChosenColour(ChosenColour);
 DrawColour();
 DrawPicture(bright,sat);
 }
@@ -153,14 +156,18 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
     wxBufferedDC buffDC(&MyDC);
     if (MyImage.IsOk())
     {
-        ImageCpy = MyImage;
+        //ImageCpy = MyImage;
+        
+        ImageCpy = *(hexagon->getImage());
         ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
         
         Brightness(bright);
         Saturation(sat);
         
         MyBitmap = wxBitmap(ImageCpy);
-        
+        m_panel5->SetBackgroundColour(hexagon->getChosenColour());
+        m_panel5->Refresh();
+       
     }
     
     buffDC.Clear();
