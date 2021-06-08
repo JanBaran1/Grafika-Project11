@@ -28,7 +28,6 @@ m_parent(parent),
 m_windowDC(new wxWindowDC(this)),
 m_selectedColour(wxColour(MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE))
 {
-
 	m_bgImage.Create(m_width, m_height);
 
 	for (int i = 0; i < m_width; i++)
@@ -103,7 +102,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	memoryDC.DrawBitmap(wxBitmap(greenSquare), 49, 27, true);
 	memoryDC.DrawBitmap(wxBitmap(blueSquare), -49, 27, true);
 	wxGraphicsContext* gCon = wxGraphicsContext::Create(memoryDC);
-	if (localMaxColourValue > 50) {
+	if (localMaxColourValue > 75) {
 		gCon->SetPen(*wxBLACK_PEN);
 		gCon->SetBrush(*wxBLACK_BRUSH);
 	}
@@ -193,14 +192,14 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 		return;
 	}
 	if (this->getSelectedColour() != sear_colour) {
-		for (int multi = 1; multi < 11; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
+		for (int multi = 0; multi < 11; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
 			for (int i = 0; i < m_width; i++) {
 				for (int j = 0; j < m_height; j++) {
 					curr_colour.Set(image.GetRed(i, j), image.GetGreen(i, j), image.GetBlue(i, j));
 					if (curr_colour == sear_colour
-						|| (abs(curr_colour.Red() - sear_colour.Red()) < (10 * multi)
-							&& (abs(curr_colour.Green() - sear_colour.Green())) < (10 * multi)
-							&& (abs(curr_colour.Blue() - sear_colour.Blue())) < (10 * multi))) {
+						|| (abs(curr_colour.Red() - sear_colour.Red()) <= (10 * multi)
+							&& (abs(curr_colour.Green() - sear_colour.Green())) <= (10 * multi)
+							&& (abs(curr_colour.Blue() - sear_colour.Blue())) <= (10 * multi))) {
 						setPointerPosition(i, j);
 						m_selectedColour = sear_colour;
 						this->Refresh();
