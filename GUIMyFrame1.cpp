@@ -40,7 +40,6 @@ void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
 {
     ChangeColour(&MyImage);
     DrawPicture(bright, sat);
-    hexagon->leftClick2(event);
     
 }
 
