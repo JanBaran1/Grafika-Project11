@@ -19,6 +19,11 @@ class Hexagon : public wxPanel {
 		wxColour getSelectedColour();
 		void setSelectedColour(const wxColour& colour);
 		void setPointerPosition(int pos_x, int pos_y);
+		void setImage(wxImage Image) { m_image = Image; }
+		wxImage * getImage() { return &m_image; }
+		void ChangeColour(wxImage* Image);
+		void setChosenColour(wxColour Colour) { m_ChosenColour = Colour; }
+		wxColour getChosenColour() { return m_ChosenColour; }
 
 	private:
 		static const int m_width = 200;
@@ -29,6 +34,7 @@ class Hexagon : public wxPanel {
 		wxWindowDC* m_windowDC;
 		wxImage m_image;
 		wxBitmap m_bitmap;
+		wxColour m_ChosenColour = wxColour(255,255,255);
 
 		//small hack
 		wxControl* m_reactControl;

@@ -9,6 +9,7 @@
 #include <wx/graphics.h>
 #include <wx/msgdlg.h>
 #include "ColoursHexagon.h"
+#include "GUIMyFrame1.h"
 
 #define MAX_COLOUR_VALUE 255
 #define BACKGROUND_COLOUR 171
@@ -127,6 +128,9 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 		wxColour colour;
 		m_windowDC->GetPixel(mouseX, mouseY, &colour);
 		m_selectedColour = colour;
+		ChangeColour(&m_image);
+		m_ChosenColour = m_selectedColour;
+		
 
 		/*if (m_reactControl != nullptr) {
 			m_colour->SetRGB(colour.GetRGB());
@@ -135,6 +139,27 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 		}*/
 
 		m_parent->Refresh();
+	}
+}
+
+void Hexagon::ChangeColour(wxImage* Image)
+{
+	if (true)
+	{
+		auto data = Image->GetData();
+		int w = Image->GetWidth();
+		int h = Image->GetHeight();
+
+		for (int i = 0; i < 3 * w * h; i += 3)
+		{
+			if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
+			{
+				data[i] = getSelectedColour().Red();
+				data[i + 1] = getSelectedColour().Green();
+				data[i + 2] = getSelectedColour().Blue();
+			}
+		}
+
 	}
 }
 
