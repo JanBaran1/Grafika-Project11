@@ -18,6 +18,7 @@
 wxBEGIN_EVENT_TABLE(Hexagon, wxPanel)
 	EVT_LEFT_DOWN(Hexagon::leftClick)
 	EVT_PAINT(Hexagon::drawHexagon)
+	EVT_ERASE_BACKGROUND(Hexagon::erase)
 wxEND_EVENT_TABLE()
 
 Hexagon::Hexagon(wxPanel* parent) :
@@ -138,6 +139,10 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 		//m_parent->Refresh();
 		this->Refresh();
 	}
+}
+
+void Hexagon::erase(wxEraseEvent& event) {
+	//event.Skip();
 }
 
 wxColour Hexagon::getSelectedColour() { //skoñczone

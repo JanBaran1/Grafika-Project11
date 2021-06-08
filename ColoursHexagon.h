@@ -15,6 +15,7 @@ class Hexagon : public wxPanel {
 
 		void drawHexagon(wxPaintEvent& event);
 		void leftClick(wxMouseEvent& event);
+		void erase(wxEraseEvent& event);
 
 		wxColour getSelectedColour();
 		void setSelectedColour(const wxColour& colour);
