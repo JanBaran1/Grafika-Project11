@@ -9,7 +9,6 @@
 #include <wx/graphics.h>
 #include <wx/msgdlg.h>
 #include "ColoursHexagon.h"
-#include "GUIMyFrame1.h"
 
 #define MAX_COLOUR_VALUE 255
 #define BACKGROUND_COLOUR 171
@@ -19,6 +18,7 @@
 wxBEGIN_EVENT_TABLE(Hexagon, wxPanel)
 	EVT_LEFT_DOWN(Hexagon::leftClick)
 	EVT_PAINT(Hexagon::drawHexagon)
+	EVT_ERASE_BACKGROUND(Hexagon::erase)
 wxEND_EVENT_TABLE()
 
 Hexagon::Hexagon(wxPanel* parent) :
@@ -103,8 +103,8 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	gCon->SetPen(*wxBLACK_PEN);
 	gCon->SetBrush(*wxBLACK_BRUSH);
 	wxGraphicsPath path = gCon->CreatePath();
-	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 3);
 	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 2);
+	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 1);
 	gCon->FillPath(path);
 	delete gCon;
 	paintDC.Blit(0, 0, m_width, m_height, &memoryDC, 0, 0, wxCOPY, true);
@@ -112,25 +112,23 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 
 void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 	//poprawiæ, ¿eby nie mruga³
-	int mouseX = wxGetMousePosition().x - this->GetScreenPosition().x;
-	int mouseY = wxGetMousePosition().y - this->GetScreenPosition().y;
+	int panelX = this->GetScreenPosition().x;
+	int panelY = this->GetScreenPosition().y;
 
-	int panelX = this->GetPosition().x;
-	int panelY = this->GetPosition().y;
+	int mouseX = wxGetMousePosition().x - panelX;
+	int mouseY = wxGetMousePosition().y - panelY;
 
-	int hexagonEndX = panelX + m_width;
-	int hexagonEndY = panelY + m_height;
+	int panelEndX = panelX + m_width;
+	int panelEndY = panelY + m_height;
+
+	wxColour colour;
+	m_windowDC->GetPixel(mouseX, mouseY, &colour);
 
 	//if jest do poprawy, ¿eby nie ³apaæ t³a
-	if (mouseX < hexagonEndX && mouseY < hexagonEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y) {
+	if ((mouseX < panelEndX && mouseY < panelEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y)
+		&& (colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
-
-		wxColour colour;
-		m_windowDC->GetPixel(mouseX, mouseY, &colour);
 		m_selectedColour = colour;
-		ChangeColour(&m_image);
-		m_ChosenColour = m_selectedColour;
-		
 
 		/*if (m_reactControl != nullptr) {
 			m_colour->SetRGB(colour.GetRGB());
@@ -138,36 +136,20 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 			m_reactControl->Refresh();
 		}*/
 
-		m_parent->Refresh();
+		//m_parent->Refresh();
+		this->Refresh();
 	}
 }
 
-void Hexagon::ChangeColour(wxImage* Image)
-{
-	if (true)
-	{
-		auto data = Image->GetData();
-		int w = Image->GetWidth();
-		int h = Image->GetHeight();
-
-		for (int i = 0; i < 3 * w * h; i += 3)
-		{
-			if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
-			{
-				data[i] = getSelectedColour().Red();
-				data[i + 1] = getSelectedColour().Green();
-				data[i + 2] = getSelectedColour().Blue();
-			}
-		}
-
-	}
+void Hexagon::erase(wxEraseEvent& event) {
+	//event.Skip();
 }
 
 wxColour Hexagon::getSelectedColour() { //skoñczone
 	return m_selectedColour;
 }
 
-void Hexagon::setSelectedColour(const wxColour& sear_colour) { //do zrobienia
+void Hexagon::setSelectedColour(const wxColour& sear_colour) { //skoñczone
 	wxImage image = m_bitmap.ConvertToImage();
 	wxColour curr_colour;
 	if (this->getSelectedColour() != sear_colour) {
