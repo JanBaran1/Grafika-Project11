@@ -73,6 +73,7 @@ hexagon->setImage(MyImage);
 //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
 //MyBitmap = wxBitmap(ImageCpy);
 ChosenColour = wxColor(255, 255, 255);
+hexagon->setChosenColour(ChosenColour);
 DrawColour();
 DrawPicture(bright,sat);
 }
