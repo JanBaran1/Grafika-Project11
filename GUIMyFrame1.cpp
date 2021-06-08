@@ -15,33 +15,35 @@ MyFrame1( parent )
 
 void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 {
-if (ImageCpy.IsOk())
-{
-unsigned int x_position = event.GetPosition().x;
-unsigned int y_position = event.GetPosition().y;
-auto data = ImageCpy.GetData();
-unsigned int width = ImageCpy.GetWidth();
-unsigned int c1 = data[3 * y_position * width + 3 * x_position];
-unsigned int c2 = data[3 * y_position * width + 3 * x_position + 1];
-unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
-ChosenColour = wxColour(c1, c2, c3);
-hexagon->setChosenColour(ChosenColour);
-DrawColour();
-m_slider5->SetValue(hexagon->getSliderValue());
+    if (ImageCpy.IsOk()){
+        unsigned int x_position = event.GetPosition().x;
+        unsigned int y_position = event.GetPosition().y;
+        auto data = ImageCpy.GetData();
+        unsigned int width = ImageCpy.GetWidth();
+        unsigned int c1 = data[3 * y_position * width + 3 * x_position];
+        unsigned int c2 = data[3 * y_position * width + 3 * x_position + 1];
+        unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
+        ChosenColour = wxColour(c1, c2, c3);
+        hexagon->setChosenColour(ChosenColour);
 
-}
+        wxColour selectedColour = wxColour(ImageCpy.GetRed(x_position, y_position), ImageCpy.GetGreen(x_position, y_position), ImageCpy.GetBlue(x_position, y_position));
+        hexagon->setSelectedColour(selectedColour);
+        DrawColour();
+        m_slider5->SetValue(hexagon->getSliderValue());
+
+    }
 }
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-DrawPicture(bright,sat);
-//Repaint();
+    DrawPicture(bright,sat);
+    //Repaint();
 }
 
 void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
 {
-ChangeColour(&MyImage);
-DrawPicture(bright, sat);
+    ChangeColour(&MyImage);
+    DrawPicture(bright, sat);
 
 }
 
