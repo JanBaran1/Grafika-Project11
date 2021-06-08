@@ -173,7 +173,7 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
         MyBitmap = wxBitmap(ImageCpy);
         m_panel5->SetBackgroundColour(hexagon->getChosenColour());
         m_panel5->Refresh();
-       
+        m_slider5->SetValue(hexagon->getSliderValue());
     }
     
     buffDC.Clear();
