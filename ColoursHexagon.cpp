@@ -173,7 +173,7 @@ wxColour Hexagon::getSelectedColour() { //skoñczone
 	return m_selectedColour;
 }
 
-void Hexagon::setSelectedColour(const wxColour& sear_colour) { //skoñczone
+void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 	wxImage image = m_bitmap.ConvertToImage();
 	wxColour curr_colour;
 	unsigned int hexagonNumber = max(sear_colour.Red(), sear_colour.Green(), sear_colour.Blue());

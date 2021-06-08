@@ -20,7 +20,7 @@ class Hexagon : public wxPanel {
 		void setSliderValue(unsigned int sliderValue);
 
 		wxColour getSelectedColour();
-		void setSelectedColour(const wxColour& colour);
+		void setSelectedColour(wxColour& sear_colour);
 		void setPointerPosition(int pos_x, int pos_y);
 		void setImage(wxImage Image) { m_image = Image; }
 		wxImage * getImage() { return &m_image; }
