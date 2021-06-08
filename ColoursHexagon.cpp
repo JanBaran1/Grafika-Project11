@@ -14,6 +14,7 @@
 #define BACKGROUND_COLOUR 171
 #define DEGREE (2 * M_PI / 360)
 
+unsigned int max(unsigned int x, unsigned int y, unsigned int z);
 
 wxBEGIN_EVENT_TABLE(Hexagon, wxPanel)
 	EVT_LEFT_DOWN(Hexagon::leftClick)
@@ -53,7 +54,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	wxPaintDC paintDC(this);
 	wxMemoryDC memoryDC;
 
-	unsigned int localMaxColourValue = 255; // = getSliderValue();
+	unsigned int localMaxColourValue = this->getSliderValue();
 
 	double step = (double) localMaxColourValue / 200;
 
@@ -201,6 +202,10 @@ void Hexagon::setSelectedColour(const wxColour& sear_colour) { //skoñczone
 void Hexagon::setPointerPosition(int pos_x, int pos_y) { //skoñczone
 	m_ptrPosition_x = pos_x;
 	m_ptrPosition_y = pos_y;
+}
+
+unsigned int Hexagon::getSliderValue() {
+	return m_sliderValue;
 }
 
 unsigned int max(unsigned int x, unsigned int y, unsigned int z) {
