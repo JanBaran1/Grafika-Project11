@@ -28,11 +28,11 @@ m_windowDC(new wxWindowDC(this)),
 m_selectedColour(wxColour(MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE))
 {
 
-	m_image.Create(m_width, m_height);
+	m_bgImage.Create(m_width, m_height);
 
 	for (int i = 0; i < m_width; i++)
 		for (int j = 0; j < m_height; j++)
-			m_image.SetRGB(i, j, BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR);
+			m_bgImage.SetRGB(i, j, BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR);
 
 }
 
@@ -42,11 +42,11 @@ m_parent(parent),
 m_reactControl(control),
 m_colour(colour),
 m_windowDC(new wxWindowDC(this)){
-	m_image.Create(m_width, m_height);
+	m_bgImage.Create(m_width, m_height);
 
 	for (int i = 0; i < m_width; i++)
 		for (int j = 0; j < m_height; j++)
-			m_image.SetRGB(i, j, BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR);
+			m_bgImage.SetRGB(i, j, BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR);
 }
 
 void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy bêdziemy wyœwietlaæ
@@ -96,7 +96,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	blueSquare = blueSquare.Rotate(120 * DEGREE, wxPoint(50, 50));
 
 
-	m_bitmap = wxBitmap(m_image);
+	m_bitmap = wxBitmap(m_bgImage);
 	memoryDC.SelectObject(m_bitmap);
 	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 0, true);
 	memoryDC.DrawBitmap(wxBitmap(greenSquare), 49, 27, true);

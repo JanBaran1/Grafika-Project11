@@ -34,6 +34,7 @@ class Hexagon : public wxPanel {
 		wxWindow* m_parent;
 		wxWindowDC* m_windowDC;
 		wxImage m_image;
+		wxImage m_bgImage;
 		wxBitmap m_bitmap;
 		wxColour m_ChosenColour = wxColour(255,255,255);
 
