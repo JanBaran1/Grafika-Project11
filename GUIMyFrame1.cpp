@@ -26,6 +26,7 @@ unsigned int c2 = data[3 * y_position * width + 3 * x_position + 1];
 unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
 ChosenColour = wxColour(c1, c2, c3);
 DrawColour();
+
 }
 }
 
@@ -33,6 +34,14 @@ void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
 DrawPicture(bright,sat);
 //Repaint();
+}
+
+void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
+{
+    ChangeColour(&MyImage);
+    DrawPicture(bright, sat);
+    
+    
 }
 
 void GUIMyFrame1::m_panel4OnUpdateUI( wxUpdateUIEvent& event )
@@ -50,21 +59,24 @@ void GUIMyFrame1::m_button1OnButtonClick( wxCommandEvent& event )
 std::shared_ptr<wxFileDialog> WxOpenFileDialog1(new wxFileDialog(this, _("Choose a file"), _(""), _(""), _("JPEG files (*.jpg)|*.jpg"), wxFD_OPEN));
 if (WxOpenFileDialog1->ShowModal() == wxID_OK)
 {
-if (!MyImage.LoadFile(WxOpenFileDialog1->GetPath(), wxBITMAP_TYPE_JPEG))
+if (!ImageOrg.LoadFile(WxOpenFileDialog1->GetPath(), wxBITMAP_TYPE_JPEG))
 wxLogError(_("Nie można załadować obrazka"));
 else
 {
-wxImage TempImg(MyImage);
+wxImage TempImg(ImageOrg);
 //TempImg.Rescale(120, 80);
 //MyImage.Paste(TempImg, MyImage.GetWidth() - 120, 0);
 //MyBitmap = wxBitmap(MyImage);
-ImageCpy = TempImg;
-ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-MyBitmap = wxBitmap(ImageCpy);
+MyImage = TempImg;
+//ImageCpy = TempImg;
+//ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+//MyBitmap = wxBitmap(ImageCpy);
+ChosenColour = wxColor(255, 255, 255);
+DrawColour();
 DrawPicture(bright,sat);
 }
-if (MyBitmap.Ok()) this->SetTitle(WxOpenFileDialog1->GetFilename());
-Refresh();
+//if (MyBitmap.Ok()) this->SetTitle(WxOpenFileDialog1->GetFilename());
+//Refresh();
 }
 }
 
@@ -147,6 +159,7 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
         
         Brightness(bright);
         Saturation(sat);
+        
         MyBitmap = wxBitmap(ImageCpy);
         
     }
@@ -156,6 +169,27 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
     
 
     if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0,true);
+}
+
+void GUIMyFrame1::ChangeColour(wxImage *Image)
+{
+    if (true)
+    {
+        auto data = Image->GetData();
+        int w = Image->GetWidth();
+        int h = Image->GetHeight();
+
+        for (int i = 0; i < 3 * w * h; i += 3)
+        {
+            if (ChosenColour.Red() == data[i] && ChosenColour.Green() == data[i + 1] && ChosenColour.Blue() == data[i + 2])
+            {
+                data[i] = hexagon->getSelectedColour().Red();
+                data[i + 1] = hexagon->getSelectedColour().Green();
+                data[i + 2] = hexagon->getSelectedColour().Blue();
+            }
+        }
+        
+    }
 }
 
 void GUIMyFrame1::Repaint()

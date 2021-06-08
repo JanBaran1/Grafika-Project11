@@ -50,6 +50,7 @@ class MyFrame1 : public wxFrame
 		// Virtual event handlers, overide them in your derived class
 		virtual void m_panel3OnLeft( wxMouseEvent& event ) { event.Skip(); }
 		virtual void m_panel3OnUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
+		virtual void m_panel4OnClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void m_panel4OnUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
 		virtual void m_panel5OnUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
 		virtual void m_button1OnButtonClick( wxCommandEvent& event ) { event.Skip(); }

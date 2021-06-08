@@ -95,6 +95,7 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	// Connect Events
 	m_panel3->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel3OnLeft ), NULL, this );
 	m_panel3->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel3OnUpdateUI ), NULL, this );
+	m_panel4->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel4OnClick ), NULL, this );
 	m_panel4->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel4OnUpdateUI ), NULL, this );
 	m_panel5->Connect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel5OnUpdateUI ), NULL, this );
 	m_button1->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrame1::m_button1OnButtonClick ), NULL, this );
@@ -142,6 +143,7 @@ MyFrame1::~MyFrame1()
 	// Disconnect Events
 	m_panel3->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel3OnLeft ), NULL, this );
 	m_panel3->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel3OnUpdateUI ), NULL, this );
+	m_panel4->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( MyFrame1::m_panel4OnClick ), NULL, this );
 	m_panel4->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel4OnUpdateUI ), NULL, this );
 	m_panel5->Disconnect( wxEVT_UPDATE_UI, wxUpdateUIEventHandler( MyFrame1::m_panel5OnUpdateUI ), NULL, this );
 	m_button1->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( MyFrame1::m_button1OnButtonClick ), NULL, this );

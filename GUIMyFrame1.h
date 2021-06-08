@@ -20,6 +20,7 @@ class GUIMyFrame1 : public MyFrame1
 		// Handlers for MyFrame1 events.
 		void m_panel3OnLeft( wxMouseEvent& event );
 		void m_panel3OnUpdateUI( wxUpdateUIEvent& event );
+		void m_panel4OnClick( wxMouseEvent& event );
 		void m_panel4OnUpdateUI( wxUpdateUIEvent& event );
 		void m_panel5OnUpdateUI( wxUpdateUIEvent& event );
 		void m_button1OnButtonClick( wxCommandEvent& event );
@@ -32,12 +33,14 @@ class GUIMyFrame1 : public MyFrame1
 		/** Constructor */
 		GUIMyFrame1( wxWindow* parent );
 	//// end generated class members
+		wxImage ImageOrg;
 		wxImage MyImage;
 		wxImage ImageCpy;
 		wxBitmap MyBitmap;
 		wxColour ChosenColour;
 		int bright = 0;
 		double sat = 0;
+		bool CC = 0;
 
 		void Brightness(int value); // funkcja zmieniajaca jasnosc obrazka
 		void Repaint();
@@ -45,9 +48,11 @@ class GUIMyFrame1 : public MyFrame1
 		//void DrawPicture(wxPaintEvent& e);
 		void DrawPicture(int bright,double sat);
 		void DrawColour();
+		void ChangeColour(wxImage *Image);
 
 		//moje zmiany:
 		Hexagon* hexagon;
+
 
 
 
