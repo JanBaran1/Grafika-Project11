@@ -131,7 +131,8 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 		&& (colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
 		m_selectedColour = colour;
-		ChangeColour(&m_image);
+		if(m_image.IsOk())
+			ChangeColour(&m_image);
 		m_ChosenColour = m_selectedColour;
 
 

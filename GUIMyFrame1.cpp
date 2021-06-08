@@ -39,9 +39,9 @@ DrawPicture(bright,sat);
 
 void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
 {
-    ChangeColour(&MyImage);
-    DrawPicture(bright, sat);
-    
+ChangeColour(&MyImage);
+DrawPicture(bright, sat);
+
 }
 
 void GUIMyFrame1::m_panel4OnUpdateUI( wxUpdateUIEvent& event )
@@ -126,6 +126,11 @@ sat = ((m_slider4->GetValue()-50)*2) ;
 DrawPicture(bright,sat);
 }
 
+void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
+{
+// TODO: Implement m_slider5OnScroll
+}
+
 
 void GUIMyFrame1::DrawColour()
 {
@@ -177,6 +182,22 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
     if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0,true);
 }
 
+void GUIMyFrame1::Repaint()
+{
+    //ImageCpy = MyImage;
+    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+   if (MyImage.IsOk())
+   {
+    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+        MyBitmap = wxBitmap(ImageCpy);
+    }
+    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
+    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
+   // wxBufferedDC buffDC(&dc);
+    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
+    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
+}
+
 void GUIMyFrame1::ChangeColour(wxImage *Image)
 {
     if (true)
@@ -196,22 +217,6 @@ void GUIMyFrame1::ChangeColour(wxImage *Image)
         }
         
     }
-}
-
-void GUIMyFrame1::Repaint()
-{
-    //ImageCpy = MyImage;
-    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-   if (MyImage.IsOk())
-   {
-    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-        MyBitmap = wxBitmap(ImageCpy);
-    }
-    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
-    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
-   // wxBufferedDC buffDC(&dc);
-    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
-    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
 }
 
 void GUIMyFrame1::Brightness(int value)
