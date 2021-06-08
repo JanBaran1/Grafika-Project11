@@ -102,8 +102,8 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	gCon->SetPen(*wxBLACK_PEN);
 	gCon->SetBrush(*wxBLACK_BRUSH);
 	wxGraphicsPath path = gCon->CreatePath();
-	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 3);
 	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 2);
+	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 1);
 	gCon->FillPath(path);
 	delete gCon;
 	paintDC.Blit(0, 0, m_width, m_height, &memoryDC, 0, 0, wxCOPY, true);
@@ -117,15 +117,16 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 	int panelX = this->GetPosition().x;
 	int panelY = this->GetPosition().y;
 
-	int hexagonEndX = panelX + m_width;
-	int hexagonEndY = panelY + m_height;
+	int panelEndX = panelX + m_width;
+	int panelEndY = panelY + m_height;
+
+	wxColour colour;
+	m_windowDC->GetPixel(mouseX, mouseY, &colour);
 
 	//if jest do poprawy, ¿eby nie ³apaæ t³a
-	if (mouseX < hexagonEndX && mouseY < hexagonEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y) {
+	if ((mouseX < panelEndX && mouseY < panelEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y) &&
+		(colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
-
-		wxColour colour;
-		m_windowDC->GetPixel(mouseX, mouseY, &colour);
 		m_selectedColour = colour;
 
 		/*if (m_reactControl != nullptr) {
