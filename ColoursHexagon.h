@@ -17,6 +17,7 @@ class Hexagon : public wxPanel {
 		void leftClick(wxMouseEvent& event);
 		void erase(wxEraseEvent& event);
 		unsigned int getSliderValue();
+		void setSliderValue(unsigned int sliderValue);
 
 		wxColour getSelectedColour();
 		void setSelectedColour(const wxColour& colour);

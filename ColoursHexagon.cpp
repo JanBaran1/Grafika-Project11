@@ -208,6 +208,11 @@ unsigned int Hexagon::getSliderValue() {
 	return m_sliderValue;
 }
 
+void Hexagon::setSliderValue(unsigned int sliderValue) {
+	m_sliderValue = sliderValue;
+	this->Refresh();
+}
+
 unsigned int max(unsigned int x, unsigned int y, unsigned int z) {
 	if (x > y)
 		if (x > z)
