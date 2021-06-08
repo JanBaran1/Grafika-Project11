@@ -113,8 +113,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	paintDC.Blit(0, 0, m_width, m_height, &memoryDC, 0, 0, wxCOPY, true);
 }
 
-void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
-	//poprawiæ, ¿eby nie mruga³
+void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 	int panelX = this->GetScreenPosition().x;
 	int panelY = this->GetScreenPosition().y;
 
@@ -127,7 +126,6 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 	wxColour colour;
 	m_windowDC->GetPixel(mouseX, mouseY, &colour);
 
-	//if jest do poprawy, ¿eby nie ³apaæ t³a
 	if ((mouseX < panelEndX && mouseY < panelEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y)
 		&& (colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
