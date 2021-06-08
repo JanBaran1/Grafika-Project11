@@ -129,6 +129,9 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 		&& (colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
 		m_selectedColour = colour;
+		ChangeColour(&m_image);
+		m_ChosenColour = m_selectedColour;
+
 
 		/*if (m_reactControl != nullptr) {
 			m_colour->SetRGB(colour.GetRGB());
@@ -138,6 +141,23 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 
 		//m_parent->Refresh();
 		this->Refresh();
+	}
+}
+
+void Hexagon::ChangeColour(wxImage* Image)
+{
+	auto data = Image->GetData();
+	int w = Image->GetWidth();
+	int h = Image->GetHeight();
+
+	for (int i = 0; i < 3 * w * h; i += 3)
+	{
+		if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
+		{
+			data[i] = getSelectedColour().Red();
+			data[i + 1] = getSelectedColour().Green();
+			data[i + 2] = getSelectedColour().Blue();
+		}
 	}
 }
 
