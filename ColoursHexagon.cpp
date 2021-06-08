@@ -162,6 +162,12 @@ void Hexagon::ChangeColour(wxImage* Image)
 			data[i + 1] = getSelectedColour().Green();
 			data[i + 2] = getSelectedColour().Blue();
 		}
+		else
+		{
+			data[i] = data[i] *(1/(fabs(m_ChosenColour.Red() -getSelectedColour().Red()))*100);
+			data[i + 1] = data[i + 1] * (1 / (fabs(m_ChosenColour.Green() -getSelectedColour().Green()))*100);
+			data[i + 2] = data[i + 2] * (1 / (fabs(m_ChosenColour.Blue() -getSelectedColour().Blue())) *100);
+		}
 	}
 }
 
