@@ -53,7 +53,9 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	wxPaintDC paintDC(this);
 	wxMemoryDC memoryDC;
 
-	double step = (double) MAX_COLOUR_VALUE / 200;
+	unsigned int localMaxColourValue = 255; // = getSliderValue();
+
+	double step = (double) localMaxColourValue / 200;
 
 	//red square
 	wxImage redSquare;
@@ -62,7 +64,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 
 	for (int i = 0; i < 200; i++)
 		for (int j = 0; j < 200; j++)
-			redSquare.SetRGB(i, j, MAX_COLOUR_VALUE, step * i, step * j);
+			redSquare.SetRGB(i, j, localMaxColourValue, step * i, step * j);
 
 	redSquare = redSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
 	redSquare = redSquare.Scale(200, 115);
@@ -74,7 +76,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 
 	for (int i = 0; i < 200; i++)
 		for (int j = 0; j < 200; j++)
-			greenSquare.SetRGB(i, j, step * j, MAX_COLOUR_VALUE, step * i);
+			greenSquare.SetRGB(i, j, step * j, localMaxColourValue, step * i);
 
 	greenSquare = greenSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
 	greenSquare = greenSquare.Scale(200, 115);
@@ -87,7 +89,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 
 	for (int i = 0; i < 200; i++)
 		for (int j = 0; j < 200; j++)
-			blueSquare.SetRGB(i, j, step * i, step * j, MAX_COLOUR_VALUE);
+			blueSquare.SetRGB(i, j, step * i, step * j, localMaxColourValue);
 
 	blueSquare = blueSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
 	blueSquare = blueSquare.Scale(200, 115);
