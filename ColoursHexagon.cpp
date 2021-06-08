@@ -174,6 +174,8 @@ wxColour Hexagon::getSelectedColour() { //skoñczone
 void Hexagon::setSelectedColour(const wxColour& sear_colour) { //skoñczone
 	wxImage image = m_bitmap.ConvertToImage();
 	wxColour curr_colour;
+	unsigned int hexagonNumber = max(sear_colour.Red(), sear_colour.Green(), sear_colour.Blue());
+	// this->setSliderValue(hexagonNumber);
 	if (this->getSelectedColour() != sear_colour) {
 		for (int multi = 1; multi < 11; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
 			for (int i = 0; i < m_width; i++) {
@@ -198,4 +200,16 @@ void Hexagon::setSelectedColour(const wxColour& sear_colour) { //skoñczone
 void Hexagon::setPointerPosition(int pos_x, int pos_y) { //skoñczone
 	m_ptrPosition_x = pos_x;
 	m_ptrPosition_y = pos_y;
+}
+
+unsigned int max(unsigned int x, unsigned int y, unsigned int z) {
+	if (x > y)
+		if (x > z)
+			return x;
+		else
+			return z;
+	else
+		if (y > z)
+			return y;
+		else z;
 }
