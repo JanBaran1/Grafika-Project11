@@ -111,11 +111,11 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 
 void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 	//poprawiæ, ¿eby nie mruga³
-	int mouseX = wxGetMousePosition().x - this->GetScreenPosition().x;
-	int mouseY = wxGetMousePosition().y - this->GetScreenPosition().y;
+	int panelX = this->GetScreenPosition().x;
+	int panelY = this->GetScreenPosition().y;
 
-	int panelX = this->GetPosition().x;
-	int panelY = this->GetPosition().y;
+	int mouseX = wxGetMousePosition().x - panelX;
+	int mouseY = wxGetMousePosition().y - panelY;
 
 	int panelEndX = panelX + m_width;
 	int panelEndY = panelY + m_height;
@@ -124,8 +124,8 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 	m_windowDC->GetPixel(mouseX, mouseY, &colour);
 
 	//if jest do poprawy, ¿eby nie ³apaæ t³a
-	if ((mouseX < panelEndX && mouseY < panelEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y) &&
-		(colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
+	if ((mouseX < panelEndX && mouseY < panelEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y)
+		&& (colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
 		m_selectedColour = colour;
 
@@ -135,7 +135,8 @@ void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 			m_reactControl->Refresh();
 		}*/
 
-		m_parent->Refresh();
+		//m_parent->Refresh();
+		this->Refresh();
 	}
 }
 
@@ -143,7 +144,7 @@ wxColour Hexagon::getSelectedColour() { //skoñczone
 	return m_selectedColour;
 }
 
-void Hexagon::setSelectedColour(const wxColour& sear_colour) { //do zrobienia
+void Hexagon::setSelectedColour(const wxColour& sear_colour) { //skoñczone
 	wxImage image = m_bitmap.ConvertToImage();
 	wxColour curr_colour;
 	if (this->getSelectedColour() != sear_colour) {
