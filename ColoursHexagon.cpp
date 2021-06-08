@@ -165,7 +165,7 @@ void Hexagon::ChangeColour(wxImage* Image)
 	}
 }
 
-void Hexagon::erase(wxEraseEvent& event) {
+void Hexagon::erase(wxEraseEvent& event) { //skoñczone
 	//event.Skip();
 }
 
@@ -177,7 +177,7 @@ void Hexagon::setSelectedColour(const wxColour& sear_colour) { //skoñczone
 	wxImage image = m_bitmap.ConvertToImage();
 	wxColour curr_colour;
 	unsigned int hexagonNumber = max(sear_colour.Red(), sear_colour.Green(), sear_colour.Blue());
-	// this->setSliderValue(hexagonNumber);
+	this->setSliderValue(hexagonNumber);
 	if (this->getSelectedColour() != sear_colour) {
 		for (int multi = 1; multi < 11; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
 			for (int i = 0; i < m_width; i++) {
