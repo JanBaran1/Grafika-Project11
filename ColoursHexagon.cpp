@@ -16,14 +16,16 @@
 
 
 wxBEGIN_EVENT_TABLE(Hexagon, wxPanel)
-//	EVT_LEFT_DOWN(Hexagon::leftClick)
+	EVT_LEFT_DOWN(Hexagon::leftClick)
 	EVT_PAINT(Hexagon::drawHexagon)
 wxEND_EVENT_TABLE()
 
 Hexagon::Hexagon(wxPanel* parent) :
 wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(m_width, m_height)),
 m_parent(parent),
-m_windowDC(new wxWindowDC(this)){
+m_windowDC(new wxWindowDC(this)),
+m_selectedColour(wxColour(MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE))
+{
 
 	m_image.Create(m_width, m_height);
 
@@ -61,6 +63,9 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 		for (int j = 0; j < 200; j++)
 			redSquare.SetRGB(i, j, MAX_COLOUR_VALUE, step * i, step * j);
 
+	redSquare = redSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
+	redSquare = redSquare.Scale(200, 115);
+
 	//green square
 	wxImage greenSquare;
 	greenSquare.Create(200, 200);
@@ -69,6 +74,10 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	for (int i = 0; i < 200; i++)
 		for (int j = 0; j < 200; j++)
 			greenSquare.SetRGB(i, j, step * j, MAX_COLOUR_VALUE, step * i);
+
+	greenSquare = greenSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
+	greenSquare = greenSquare.Scale(200, 115);
+	greenSquare = greenSquare.Rotate(-120 * DEGREE, wxPoint(50, 50));
 
 	//blue square
 	wxImage blueSquare;
@@ -79,63 +88,37 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 		for (int j = 0; j < 200; j++)
 			blueSquare.SetRGB(i, j, step * i, step * j, MAX_COLOUR_VALUE);
 
-	redSquare = redSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
-	redSquare = redSquare.Scale(200, 115);
-
-	greenSquare = greenSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
-	greenSquare = greenSquare.Scale(200, 115);
-	greenSquare = greenSquare.Rotate(-120 * DEGREE, wxPoint(50, 50));
-
 	blueSquare = blueSquare.Rotate(-45 * DEGREE, wxPoint(50, 50));
 	blueSquare = blueSquare.Scale(200, 115);
 	blueSquare = blueSquare.Rotate(120 * DEGREE, wxPoint(50, 50));
+
 
 	m_bitmap = wxBitmap(m_image);
 	memoryDC.SelectObject(m_bitmap);
 	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 0, true);
 	memoryDC.DrawBitmap(wxBitmap(greenSquare), 49, 27, true);
 	memoryDC.DrawBitmap(wxBitmap(blueSquare), -49, 27, true);
+	wxGraphicsContext* gCon = wxGraphicsContext::Create(memoryDC);
+	gCon->SetPen(*wxBLACK_PEN);
+	gCon->SetBrush(*wxBLACK_BRUSH);
+	wxGraphicsPath path = gCon->CreatePath();
+	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 3);
+	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 2);
+	gCon->FillPath(path);
+	delete gCon;
 	paintDC.Blit(0, 0, m_width, m_height, &memoryDC, 0, 0, wxCOPY, true);
 }
 
-/*void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
+void Hexagon::leftClick(wxMouseEvent& event) { //do poprawy
 	//poprawiæ, ¿eby nie mruga³
 	int mouseX = wxGetMousePosition().x - this->GetScreenPosition().x;
 	int mouseY = wxGetMousePosition().y - this->GetScreenPosition().y;
 
-	int windowX = this->GetPosition().x;
-	int windowY = this->GetPosition().y;
+	int panelX = this->GetPosition().x;
+	int panelY = this->GetPosition().y;
 
-	int hexagonEndX = windowX + m_width;
-	int hexagonEndY = windowY + m_height;
-
-	//if jest do poprawy, ¿eby nie ³apaæ t³a
-	if (mouseX < hexagonEndX && mouseY < hexagonEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y) {
-		setPointerPosition(mouseX, mouseY);
-
-		wxColour colour;
-		m_windowDC->GetPixel(mouseX, mouseY, &colour);
-		m_selectedColour = colour;
-
-		if (m_reactControl != nullptr) {
-			m_colour->SetRGB(colour.GetRGB());
-			m_reactControl->SetForegroundColour(colour);
-			m_reactControl->Refresh();
-		}
-
-		//m_parent->Refresh();
-	}
-}*/
-
-void Hexagon::leftClick2(wxMouseEvent& event) {
-	int mouseX = wxGetMousePosition().x - this->GetScreenPosition().x;
-	int mouseY = wxGetMousePosition().y - this->GetScreenPosition().y;
-
-	int windowX = this->GetPosition().x;
-	int windowY = this->GetPosition().y;
-
-	int hexagonEndX = windowX + m_width;
-	int hexagonEndY = windowY + m_height;
+	int hexagonEndX = panelX + m_width;
+	int hexagonEndY = panelY + m_height;
 
 	//if jest do poprawy, ¿eby nie ³apaæ t³a
 	if (mouseX < hexagonEndX && mouseY < hexagonEndY && mouseX != m_ptrPosition_x && mouseY != m_ptrPosition_y) {
@@ -145,13 +128,13 @@ void Hexagon::leftClick2(wxMouseEvent& event) {
 		m_windowDC->GetPixel(mouseX, mouseY, &colour);
 		m_selectedColour = colour;
 
-		if (m_reactControl != nullptr) {
+		/*if (m_reactControl != nullptr) {
 			m_colour->SetRGB(colour.GetRGB());
 			m_reactControl->SetForegroundColour(colour);
 			m_reactControl->Refresh();
-		}
+		}*/
 
-		//m_parent->Refresh();
+		m_parent->Refresh();
 	}
 }
 
