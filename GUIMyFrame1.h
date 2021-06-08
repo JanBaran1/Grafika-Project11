@@ -29,6 +29,7 @@ class GUIMyFrame1 : public MyFrame1
 		void m_slider2OnScroll( wxScrollEvent& event );
 		void m_slider3OnScroll( wxScrollEvent& event );
 		void m_slider4OnScroll( wxScrollEvent& event );
+		void m_slider5OnScroll( wxScrollEvent& event );
 	public:
 		/** Constructor */
 		GUIMyFrame1( wxWindow* parent );
@@ -53,6 +54,7 @@ class GUIMyFrame1 : public MyFrame1
 
 		//moje zmiany:
 		//Hexagon* hexagon;
+
 
 
 
