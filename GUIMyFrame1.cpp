@@ -27,6 +27,7 @@ unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
 ChosenColour = wxColour(c1, c2, c3);
 hexagon->setChosenColour(ChosenColour);
 DrawColour();
+m_slider5->SetValue(hexagon->getSliderValue());
 
 }
 }
@@ -173,7 +174,7 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
         MyBitmap = wxBitmap(ImageCpy);
         m_panel5->SetBackgroundColour(hexagon->getChosenColour());
         m_panel5->Refresh();
-        m_slider5->SetValue(hexagon->getSliderValue());
+        
     }
     
     buffDC.Clear();
