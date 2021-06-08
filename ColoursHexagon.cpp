@@ -103,8 +103,14 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	memoryDC.DrawBitmap(wxBitmap(greenSquare), 49, 27, true);
 	memoryDC.DrawBitmap(wxBitmap(blueSquare), -49, 27, true);
 	wxGraphicsContext* gCon = wxGraphicsContext::Create(memoryDC);
-	gCon->SetPen(*wxBLACK_PEN);
-	gCon->SetBrush(*wxBLACK_BRUSH);
+	if (localMaxColourValue > 50) {
+		gCon->SetPen(*wxBLACK_PEN);
+		gCon->SetBrush(*wxBLACK_BRUSH);
+	}
+	else {
+		gCon->SetPen(*wxWHITE_PEN);
+		gCon->SetBrush(*wxWHITE_BRUSH);
+	}
 	wxGraphicsPath path = gCon->CreatePath();
 	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 2);
 	path.AddCircle(m_ptrPosition_x, m_ptrPosition_y, 1);
@@ -182,6 +188,10 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 	wxColour curr_colour;
 	unsigned int hexagonNumber = max(sear_colour.Red(), sear_colour.Green(), sear_colour.Blue());
 	this->setSliderValue(hexagonNumber);
+	if (sear_colour == wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR)) {
+		setPointerPosition(m_width / 2, m_height / 2 - 18);
+		return;
+	}
 	if (this->getSelectedColour() != sear_colour) {
 		for (int multi = 1; multi < 11; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
 			for (int i = 0; i < m_width; i++) {
@@ -194,7 +204,7 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 						setPointerPosition(i, j);
 						m_selectedColour = sear_colour;
 						this->Refresh();
-						break;
+						return;
 					}
 				}
 			}
