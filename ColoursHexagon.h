@@ -7,7 +7,6 @@
 #include <wx/panel.h>
 
 
-
 class Hexagon : public wxPanel {
 	public:
 		Hexagon(wxPanel* parent);
@@ -17,8 +16,9 @@ class Hexagon : public wxPanel {
 		void leftClick(wxMouseEvent& event);
 		void erase(wxEraseEvent& event);
 		unsigned int getSliderValue();
+		void setSuwak(unsigned int s);
+		unsigned int getSuwak();
 		void setSliderValue(unsigned int sliderValue);
-
 		wxColour getSelectedColour();
 		void setSelectedColour(wxColour& sear_colour);
 		void setPointerPosition(int pos_x, int pos_y);
@@ -27,7 +27,7 @@ class Hexagon : public wxPanel {
 		void ChangeColour(wxImage* Image);
 		void setChosenColour(wxColour Colour) { m_ChosenColour = Colour; }
 		wxColour getChosenColour() { return m_ChosenColour; }
-
+		//int suwak = 0;
 	private:
 		static const int m_width = 200;
 		static const int m_height = 260;
@@ -43,7 +43,7 @@ class Hexagon : public wxPanel {
 		//small hack
 		wxControl* m_reactControl;
 		wxColour* m_colour;
-
+		unsigned int suwak = 0;
 		unsigned int m_sliderValue = 127;
 		int m_ptrPosition_x = m_width / 2;
 		int m_ptrPosition_y = m_height / 2 - 18;

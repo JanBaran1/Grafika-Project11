@@ -156,6 +156,7 @@ void Hexagon::ChangeColour(wxImage* Image)
 	auto data = Image->GetData();
 	int w = Image->GetWidth();
 	int h = Image->GetHeight();
+	
 
 	for (int i = 0; i < 3 * w * h; i += 3)
 	{
@@ -167,9 +168,9 @@ void Hexagon::ChangeColour(wxImage* Image)
 		}
 		else
 		{
-			data[i] = data[i] *(1/(fabs(m_ChosenColour.Red() -getSelectedColour().Red()))*100);
-			data[i + 1] = data[i + 1] * (1 / (fabs(m_ChosenColour.Green() -getSelectedColour().Green()))*100);
-			data[i + 2] = data[i + 2] * (1 / (fabs(m_ChosenColour.Blue() -getSelectedColour().Blue())) *100);
+			data[i] = data[i] *(1+1/(fabs(m_ChosenColour.Red() -getSelectedColour().Red()))*getSuwak());
+			data[i + 1] = data[i + 1] * (1+1 / (fabs(m_ChosenColour.Green() -getSelectedColour().Green()))* getSuwak());
+			data[i + 2] = data[i + 2] * (1+1 / (fabs(m_ChosenColour.Blue() -getSelectedColour().Blue()))* getSuwak());
 		}
 	}
 }
@@ -223,6 +224,14 @@ unsigned int Hexagon::getSliderValue() {
 
 void Hexagon::setSliderValue(unsigned int sliderValue) {
 	m_sliderValue = sliderValue;
+	this->Refresh();
+}
+unsigned int Hexagon::getSuwak() {
+	return suwak;
+}
+
+void Hexagon::setSuwak(unsigned int s) {
+	suwak = s;
 	this->Refresh();
 }
 
