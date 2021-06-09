@@ -43,7 +43,7 @@ class Hexagon : public wxPanel {
 		//small hack
 		wxControl* m_reactControl;
 		wxColour* m_colour;
-		unsigned int suwak = 0;
+		unsigned int suwak =0;
 		unsigned int m_sliderValue = 127;
 		int m_ptrPosition_x = m_width / 2;
 		int m_ptrPosition_y = m_height / 2 - 18;
