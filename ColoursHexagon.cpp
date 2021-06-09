@@ -194,7 +194,7 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 		return;
 	}
 	if (this->getSelectedColour() != sear_colour) {
-		for (int multi = 0; multi < 11; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
+		for (int multi = 0; multi < 4; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
 			for (int i = 0; i < m_width; i++) {
 				for (int j = 0; j < m_height; j++) {
 					curr_colour.Set(image.GetRed(i, j), image.GetGreen(i, j), image.GetBlue(i, j));
