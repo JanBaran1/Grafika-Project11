@@ -16,8 +16,8 @@ class Hexagon : public wxPanel {
 		void leftClick(wxMouseEvent& event);
 		void erase(wxEraseEvent& event);
 		unsigned int getSliderValue();
-		void setSuwak(unsigned int s);
-		unsigned int getSuwak();
+		void setSuwak(double s);
+		double getSuwak();
 		void setSliderValue(unsigned int sliderValue);
 		wxColour getSelectedColour();
 		void setSelectedColour(wxColour& sear_colour);
@@ -43,7 +43,7 @@ class Hexagon : public wxPanel {
 		//small hack
 		wxControl* m_reactControl;
 		wxColour* m_colour;
-		unsigned int suwak =0;
+		double suwak = 0.5;
 		unsigned int m_sliderValue = 127;
 		int m_ptrPosition_x = m_width / 2;
 		int m_ptrPosition_y = m_height / 2 - 18;

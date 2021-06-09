@@ -156,6 +156,7 @@ void Hexagon::ChangeColour(wxImage* Image)
 	auto data = Image->GetData();
 	int w = Image->GetWidth();
 	int h = Image->GetHeight();
+	double x = suwak;
 	
 
 	for (int i = 0; i < 3 * w * h; i += 3)
@@ -226,11 +227,11 @@ void Hexagon::setSliderValue(unsigned int sliderValue) {
 	m_sliderValue = sliderValue;
 	this->Refresh();
 }
-unsigned int Hexagon::getSuwak() {
+double Hexagon::getSuwak() {
 	return suwak;
 }
 
-void Hexagon::setSuwak(unsigned int s) {
+void Hexagon::setSuwak(double s) {
 	suwak = s;
 	this->Refresh();
 }

@@ -105,7 +105,7 @@ ImageCpy.SaveFile(output_stream, "image/jpeg");
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider1OnScroll
-    hexagon->setSuwak(m_slider1->GetValue() );
+    hexagon->setSuwak(m_slider1->GetValue()/100. );
 }
 
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
