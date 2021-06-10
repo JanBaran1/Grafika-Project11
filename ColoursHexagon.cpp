@@ -100,7 +100,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	memoryDC.SelectObject(m_bitmap);
 	memoryDC.DrawBitmap(wxBitmap(greenSquare), 48, 27, true);
 	memoryDC.DrawBitmap(wxBitmap(blueSquare), -49, 27, true);
-	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 0, true);
+	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 1, true);
 	wxGraphicsContext* gCon = wxGraphicsContext::Create(memoryDC);
 	if (localMaxColourValue > 75) {
 		gCon->SetPen(*wxBLACK_PEN);
