@@ -42,8 +42,7 @@ void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 
 void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
 {
-    ChangeColour(&MyImage);
-    DrawPicture(bright, sat);
+  //nie dziala
 
 }
 
@@ -72,6 +71,7 @@ wxImage TempImg(ImageOrg);
 //MyBitmap = wxBitmap(MyImage);
 MyImage = TempImg;
 hexagon->setImage(MyImage);
+hexagon->setImageSuwak(MyImage);
 //ImageCpy = TempImg;
 //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
 //MyBitmap = wxBitmap(ImageCpy);
@@ -105,8 +105,14 @@ ImageCpy.SaveFile(output_stream, "image/jpeg");
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider1OnScroll
-    hexagon->setSuwak(m_slider1->GetValue()/100. );
-   
+    if (MyImage.IsOk())
+    {
+        hexagon->setSuwak(m_slider1->GetValue() / 100.);
+        hexagon->setImage(hexagon->getImageSuwak());
+        hexagon->ChangeColour(hexagon->getImage());
+        DrawPicture(bright, sat);
+       
+    }
 }
 
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
@@ -120,6 +126,7 @@ void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 //Brightness((m_slider3->GetValue() -50)/50. * 200 );
 bright = (m_slider3->GetValue() - 50) / 50. * 150;
 //Repaint();
+bright_flag = true;
 DrawPicture(bright,sat);
 }
 
@@ -128,6 +135,7 @@ void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
 // TODO: Implement m_slider4OnScroll
 sat = ((m_slider4->GetValue()-50)*2) ;
 //Repaint();
+sat_flag = true;
 DrawPicture(bright,sat);
 }
 
@@ -175,9 +183,16 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
         ImageCpy = *(hexagon->getImage());
         ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
         
-        Brightness(bright);
-        Saturation(sat);
-        
+        if (bright_flag == true)
+        {
+            Brightness(bright);
+            bright_flag = false;
+        }
+        if (sat_flag == true)
+        {
+            Saturation(sat);
+            sat_flag = false;
+        }
         MyBitmap = wxBitmap(ImageCpy);
         m_panel5->SetBackgroundColour(hexagon->getChosenColour());
         m_panel5->Refresh();
