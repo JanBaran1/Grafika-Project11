@@ -215,6 +215,8 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 	this->setSliderValue(hexagonNumber);
 	if (sear_colour == wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR)) {
 		setPointerPosition(m_width / 2, m_height / 2 - 18);
+		m_selectedColour = sear_colour;
+		this->Refresh();
 		return;
 	}
 	if (this->getSelectedColour() != sear_colour) {
@@ -235,7 +237,6 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 			}
 		}
 	}
-
 }
 
 void Hexagon::setPointerPosition(int pos_x, int pos_y) { //skoñczone
