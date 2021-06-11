@@ -142,7 +142,10 @@ DrawPicture(bright,sat);
 void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider5OnScroll
-    hexagon->setSliderValue(255 * m_slider5->GetValue() / 100);
+    int sliderValue = m_slider5->GetValue();
+    if (sliderValue < 1)
+        sliderValue = 1;
+    hexagon->setSliderValue(255 * sliderValue / 100);
 }
 
 

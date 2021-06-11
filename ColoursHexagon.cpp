@@ -95,12 +95,24 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 	blueSquare = blueSquare.Scale(200, 115);
 	blueSquare = blueSquare.Rotate(120 * DEGREE, wxPoint(50, 50));
 
+	wxImage cyanLine;
+	cyanLine.Create(200, 200);
+	cyanLine.SetMask(true);
+	double stepLine = (double)localMaxColourValue / 114;
+	for (int i = 0; i < 113; i++) {
+		cyanLine.SetRGB(99, i, localMaxColourValue - stepLine * i, localMaxColourValue - stepLine, localMaxColourValue);
+		cyanLine.SetRGB(100, i, localMaxColourValue - stepLine * i, localMaxColourValue, localMaxColourValue);
+		cyanLine.SetRGB(101, i, localMaxColourValue - stepLine * i, localMaxColourValue, localMaxColourValue - stepLine);
+		
+	}
+	//cyanLine.SetRGB(100, 115, 0, localMaxColourValue, localMaxColourValue);
 
 	m_bitmap = wxBitmap(m_bgImage);
 	memoryDC.SelectObject(m_bitmap);
 	memoryDC.DrawBitmap(wxBitmap(greenSquare), 48, 27, true);
 	memoryDC.DrawBitmap(wxBitmap(blueSquare), -49, 27, true);
 	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 1, true);
+	memoryDC.DrawBitmap(wxBitmap(cyanLine), 0, 115, true);
 	wxGraphicsContext* gCon = wxGraphicsContext::Create(memoryDC);
 	if (localMaxColourValue > 75) {
 		gCon->SetPen(*wxBLACK_PEN);
