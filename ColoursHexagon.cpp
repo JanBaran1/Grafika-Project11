@@ -105,7 +105,7 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 		cyanLine.SetRGB(101, i, localMaxColourValue - stepLine * i, localMaxColourValue, localMaxColourValue - stepLine);
 		
 	}
-	//cyanLine.SetRGB(100, 115, 0, localMaxColourValue, localMaxColourValue);
+	//cyanLine.SetRGB(100, 113, 0, localMaxColourValue, localMaxColourValue);
 
 	m_bitmap = wxBitmap(m_bgImage);
 	memoryDC.SelectObject(m_bitmap);
@@ -147,9 +147,14 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 		&& (colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
 		m_selectedColour = colour;
-		if(m_image.IsOk())
+		if (m_image.IsOk())
+		{
+			m_imageSuwak = wxImage(m_image);
 			ChangeColour(&m_image);
-		m_ChosenColour = m_selectedColour;
+			
+			
+		}
+		//m_ChosenColour = m_selectedColour;
 
 
 		/*if (m_reactControl != nullptr) {
@@ -165,25 +170,46 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 
 void Hexagon::ChangeColour(wxImage* Image)
 {
-	auto data = Image->GetData();
-	int w = Image->GetWidth();
-	int h = Image->GetHeight();
-	double x = suwak;
-	
-
-	for (int i = 0; i < 3 * w * h; i += 3)
+	if (m_ChosenColour.IsOk())
 	{
-		if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
+		auto data = Image->GetData();
+		int w = Image->GetWidth();
+		int h = Image->GetHeight();
+		double x = suwak;
+		int red = 0;
+		int green = 0;
+		int blue = 0;
+
+		for (int i = 0; i < 3 * w * h; i += 3)
 		{
-			data[i] = getSelectedColour().Red();
-			data[i + 1] = getSelectedColour().Green();
-			data[i + 2] = getSelectedColour().Blue();
-		}
-		else
-		{
-			data[i] = data[i] *(1+1/(fabs(m_ChosenColour.Red() - getSelectedColour().Red()))*getSuwak());
-			data[i + 1] = data[i + 1] * (1+1 / (fabs(m_ChosenColour.Green() -getSelectedColour().Green()))* getSuwak());
-			data[i + 2] = data[i + 2] * (1+1 / (fabs(m_ChosenColour.Blue() -getSelectedColour().Blue()))* getSuwak());
+			if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
+			{
+				data[i] =	m_selectedColour.Red() ;
+				data[i + 1] = m_selectedColour.Green() ;
+				data[i + 2] = m_selectedColour.Blue() ;
+			}
+
+			else
+			{
+				
+				
+				red = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red())));
+				green = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green())));
+				blue = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue())));
+				if (red > 255)
+					red = 255;
+				if (green > 255)
+					green = 255;
+				if (blue > 255)
+					blue = 255;
+
+				//data[i] = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red()) ));				
+				//data[i + 1] = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green()))) ;				
+				//data[i + 2] = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue()))) ;
+				data[i] = red;
+				data[i + 1] = green;
+				data[i + 2] = blue;
+			}
 		}
 	}
 }
@@ -192,7 +218,7 @@ void Hexagon::erase(wxEraseEvent& event) { //skoñczone
 	//event.Skip();
 }
 
-wxColour Hexagon::getSelectedColour() { //skoñczone
+inline wxColour Hexagon::getSelectedColour() { //skoñczone
 	return m_selectedColour;
 }
 
@@ -200,13 +226,17 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 	wxImage image = m_bitmap.ConvertToImage();
 	wxColour curr_colour;
 	unsigned int hexagonNumber = max(sear_colour.Red(), sear_colour.Green(), sear_colour.Blue());
+	if (hexagonNumber < 1)
+		hexagonNumber = 1;
 	this->setSliderValue(hexagonNumber);
 	if (sear_colour == wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR)) {
 		setPointerPosition(m_width / 2, m_height / 2 - 18);
+		m_selectedColour = sear_colour;
+		this->Refresh();
 		return;
 	}
 	if (this->getSelectedColour() != sear_colour) {
-		for (int multi = 0; multi < 4; multi++) { // skoro nie ma skalowania to byæ mo¿e ten for nie bêdzie potrzeby
+		for (int multi = 0; multi < 4; multi++) {
 			for (int i = 0; i < m_width; i++) {
 				for (int j = 0; j < m_height; j++) {
 					curr_colour.Set(image.GetRed(i, j), image.GetGreen(i, j), image.GetBlue(i, j));
@@ -223,7 +253,6 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 			}
 		}
 	}
-
 }
 
 void Hexagon::setPointerPosition(int pos_x, int pos_y) { //skoñczone
@@ -236,10 +265,12 @@ unsigned int Hexagon::getSliderValue() {
 }
 
 void Hexagon::setSliderValue(unsigned int sliderValue) {
+	if (sliderValue < 1)
+		sliderValue = 1;
 	m_sliderValue = sliderValue;
 	this->Refresh();
 }
-double Hexagon::getSuwak() {
+inline double Hexagon::getSuwak() {
 	return suwak;
 }
 

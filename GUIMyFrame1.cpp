@@ -28,8 +28,8 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 
         wxColour selectedColour = wxColour(ImageCpy.GetRed(x_position, y_position), ImageCpy.GetGreen(x_position, y_position), ImageCpy.GetBlue(x_position, y_position));
         hexagon->setSelectedColour(selectedColour);
-        DrawColour();
         m_slider5->SetValue(hexagon->getSliderValue());
+        DrawColour();
 
     }
 }
@@ -42,8 +42,7 @@ void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 
 void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
 {
-    ChangeColour(&MyImage);
-    DrawPicture(bright, sat,zmiana);
+  //nie dziala
 
 }
 
@@ -72,6 +71,7 @@ wxImage TempImg(ImageOrg);
 //MyBitmap = wxBitmap(MyImage);
 MyImage = TempImg;
 hexagon->setImage(MyImage);
+hexagon->setImageSuwak(MyImage);
 //ImageCpy = TempImg;
 //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
 //MyBitmap = wxBitmap(ImageCpy);
@@ -105,8 +105,14 @@ ImageCpy.SaveFile(output_stream, "image/jpeg");
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider1OnScroll
-    //hexagon->setSuwak(m_slider1->GetValue()/100. );
-    
+    if (MyImage.IsOk())
+    {
+        hexagon->setSuwak(m_slider1->GetValue() - 50. / 50.);
+        hexagon->setImage(hexagon->getImageSuwak());
+        hexagon->ChangeColour(hexagon->getImage());
+        DrawPicture(bright, sat);
+       
+    }
 }
 
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
@@ -122,7 +128,8 @@ void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 //Brightness((m_slider3->GetValue() -50)/50. * 200 );
 bright = (m_slider3->GetValue() - 50) / 50. * 150;
 //Repaint();
-DrawPicture(bright,sat,zmiana);
+bright_flag = true;
+DrawPicture(bright,sat);
 }
 
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
@@ -130,7 +137,8 @@ void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
 // TODO: Implement m_slider4OnScroll
 sat = ((m_slider4->GetValue()-50)*2) ;
 //Repaint();
-DrawPicture(bright,sat,zmiana);
+sat_flag = true;
+DrawPicture(bright,sat);
 }
 
 void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
@@ -170,20 +178,28 @@ void GUIMyFrame1::DrawPicture(int bright,double sat,int zmiana)
     //wxAutoBufferedPaintDC MyDC(m_panel3);
     wxClientDC MyDC(m_panel3);
     wxBufferedDC buffDC(&MyDC);
+
     if (MyImage.IsOk())
     {
         //ImageCpy = MyImage;
         
-        ImageCpy = *(hexagon->getImage());
+        ImageCpy = hexagon->m_image;
         ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
         
-        Brightness(bright);
-        Saturation(sat);
-        SilaZmian(zmiana);
-        
+        if (bright_flag == true)
+        {
+            Brightness(bright);
+            bright_flag = false;
+        }
+        if (sat_flag == true)
+        {
+            Saturation(sat);
+            sat_flag = false;
+        }
         MyBitmap = wxBitmap(ImageCpy);
-        m_panel5->SetBackgroundColour(hexagon->getChosenColour());
+       m_panel5->SetBackgroundColour(hexagon->getChosenColour());
         m_panel5->Refresh();
+      
         
     }
     
@@ -192,6 +208,7 @@ void GUIMyFrame1::DrawPicture(int bright,double sat,int zmiana)
     
 
     if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0,true);
+   
 }
 
 void GUIMyFrame1::Repaint()
@@ -226,8 +243,7 @@ void GUIMyFrame1::ChangeColour(wxImage *Image)
                 data[i + 1] = hexagon->getSelectedColour().Green();
                 data[i + 2] = hexagon->getSelectedColour().Blue();
             }
-        }
-        
+        }       
     }
 }
 
@@ -235,9 +251,11 @@ void GUIMyFrame1::Brightness(int value)
 {
     // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
     //ImageCpy = MyImage.Copy();
-    unsigned char* piks = ImageCpy.GetData();
+    //unsigned char* piks = ImageCpy.GetData();
+    hexagon->m_image = wxImage(hexagon->m_imageSuwak);
+    unsigned char* piks = hexagon->m_image.GetData();
 
-    int rozmiar = 3* ImageCpy.GetWidth() * ImageCpy.GetHeight();
+    int rozmiar = 3* hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
     int k = 0;
 
     while (k < rozmiar) {
@@ -250,7 +268,7 @@ void GUIMyFrame1::Brightness(int value)
             tmp = 0;
 
         piks[k++] = tmp;
-    }
+    }  
 }
 
 void GUIMyFrame1::Saturation(double value)
