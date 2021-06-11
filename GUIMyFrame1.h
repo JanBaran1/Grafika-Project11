@@ -52,7 +52,7 @@ class GUIMyFrame1 : public MyFrame1
 		void Saturation(double value);
 		void SilaZmian(double value);
 		//void DrawPicture(wxPaintEvent& e);
-		void DrawPicture(int bright,double sat,int zmiana);
+		void DrawPicture(int bright,double sat);
 		void DrawColour();
 		void ChangeColour(wxImage *Image);
 

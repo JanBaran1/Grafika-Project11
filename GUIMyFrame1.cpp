@@ -36,7 +36,7 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-    DrawPicture(bright,sat,zmiana);
+    DrawPicture(bright,sat);
     //Repaint();
 }
 
@@ -78,7 +78,7 @@ hexagon->setImageSuwak(MyImage);
 ChosenColour = wxColor(255, 255, 255);
 hexagon->setChosenColour(ChosenColour);
 DrawColour();
-DrawPicture(bright,sat,zmiana);
+DrawPicture(bright,sat);
 }
 //if (MyBitmap.Ok()) this->SetTitle(WxOpenFileDialog1->GetFilename());
 //Refresh();
@@ -119,7 +119,7 @@ void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider2OnScroll
     zmiana = m_slider2->GetValue();
-    DrawPicture(bright, sat, zmiana);
+    DrawPicture(bright, sat);
 }
 
 void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
@@ -173,7 +173,7 @@ void GUIMyFrame1::DrawColour()
     if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0);
 }
       */
-void GUIMyFrame1::DrawPicture(int bright,double sat,int zmiana)
+void GUIMyFrame1::DrawPicture(int bright,double sat)
 {
     //wxAutoBufferedPaintDC MyDC(m_panel3);
     wxClientDC MyDC(m_panel3);
