@@ -149,11 +149,12 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 		m_selectedColour = colour;
 		if (m_image.IsOk())
 		{
-			m_imageSuwak = m_image;
+			m_imageSuwak = wxImage(m_image);
 			ChangeColour(&m_image);
 			
+			
 		}
-		m_ChosenColour = m_selectedColour;
+		//m_ChosenColour = m_selectedColour;
 
 
 		/*if (m_reactControl != nullptr) {
@@ -175,27 +176,40 @@ void Hexagon::ChangeColour(wxImage* Image)
 		int w = Image->GetWidth();
 		int h = Image->GetHeight();
 		double x = suwak;
-
+		int red = 0;
+		int green = 0;
+		int blue = 0;
 
 		for (int i = 0; i < 3 * w * h; i += 3)
 		{
 			if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
 			{
-				data[i] = m_selectedColour.Red() * suwak;
-				data[i + 1] = m_selectedColour.Green() * suwak;
-				data[i + 2] = m_selectedColour.Blue() * suwak;
+				data[i] =	m_selectedColour.Red() ;
+				data[i + 1] = m_selectedColour.Green() ;
+				data[i + 2] = m_selectedColour.Blue() ;
 			}
 
-			/*else
+			else
 			{
+				
+				
+				red = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red())));
+				green = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green())));
+				blue = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue())));
+				if (red > 255)
+					red = 255;
+				if (green > 255)
+					green = 255;
+				if (blue > 255)
+					blue = 255;
 
-				//data[i] = data[i] *(1/(fabs(m_ChosenColour.Red() - getSelectedColour().Red())));
-				data[i] = data[i] * (1. / (fabs(m_selectedColour.Red() - data[i]))) * x;
-				//data[i + 1] = data[i + 1] * (1 / (fabs(m_ChosenColour.Green() -getSelectedColour().Green())));
-				data[i + 1] = data[i + 1] * (1. / (fabs(m_selectedColour.Green() - data[i + 1]))) * x;
-				//data[i + 2] = data[i + 2] * (1 ./ (fabs(m_ChosenColour.Blue() -getSelectedColour().Blue())));
-				data[i + 2] = data[i + 2] * (1. / (fabs(m_selectedColour.Blue() - data[i + 2]))) * x;
-			}*/
+				//data[i] = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red()) ));				
+				//data[i + 1] = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green()))) ;				
+				//data[i + 2] = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue()))) ;
+				data[i] = red;
+				data[i + 1] = green;
+				data[i + 2] = blue;
+			}
 		}
 	}
 }
