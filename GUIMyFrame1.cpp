@@ -118,7 +118,7 @@ void GUIMyFrame1::m_slider1OnScrollChanged( wxScrollEvent& event )
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
 {
 zmiana = m_slider2->GetValue();
-zmiana_flag == true;
+zmiana_flag = true;
 DrawPicture(bright, sat);
 }
 
