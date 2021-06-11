@@ -50,7 +50,7 @@ class GUIMyFrame1 : public MyFrame1
 		bool zmiana_flag = false;
 		double sat = 0;
 		bool CC = 0;
-		int zmiana = 0;
+		double zmiana = 0;
 
 		void Brightness(int value); // funkcja zmieniajaca jasnosc obrazka
 		void Repaint();

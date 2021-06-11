@@ -276,8 +276,9 @@ void GUIMyFrame1::Brightness(int value)
 
 void GUIMyFrame1::SilaZmian(double value)
 {
+    //unsigned char* piksorg = ImageCpy.GetData();
     //unsigned char* piks = ImageCpy.GetData();
-    //unsigned char* piks = ImageCpy.GetData();
+    // char* piksorg = hexagon->m_image.GetData();
     hexagon->m_image = hexagon->m_imageSuwak.Copy();
     unsigned char* piks = hexagon->m_image.GetData();
 
@@ -287,9 +288,9 @@ void GUIMyFrame1::SilaZmian(double value)
     for (unsigned k = 0; k < rozmiar; k += 3) {
    
         
-        int tmp1 = piks[k] * (100 - value) / 100 + hexagon->getSelectedColour().Red() * value / 100;
-        int tmp2 = piks[k+1] * (100 - value) / 100 + hexagon->getSelectedColour().Green() * value / 100;
-        int tmp3 = piks[k+2] * (100 - value) / 100 + hexagon->getSelectedColour().Blue() * value / 100;
+        int tmp1 =( MyImage.GetData()[k] )* (100 - value) / 100 + piks[k] * value / 100;
+        int tmp2 = (MyImage.GetData()[k+1]) * (100 - value) / 100 + piks[k+1] * value / 100;
+        int tmp3 = (MyImage.GetData()[k+2]) * (100 - value) / 100 + piks[k+2] * value / 100;
 
         
 
