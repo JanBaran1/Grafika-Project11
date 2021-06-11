@@ -28,8 +28,8 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 
         wxColour selectedColour = wxColour(ImageCpy.GetRed(x_position, y_position), ImageCpy.GetGreen(x_position, y_position), ImageCpy.GetBlue(x_position, y_position));
         hexagon->setSelectedColour(selectedColour);
-        DrawColour();
         m_slider5->SetValue(hexagon->getSliderValue());
+        DrawColour();
 
     }
 }
