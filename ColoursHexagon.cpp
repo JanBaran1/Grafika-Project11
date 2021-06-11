@@ -243,9 +243,9 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 				for (int j = 0; j < m_height; j++) {
 					curr_colour.Set(image.GetRed(i, j), image.GetGreen(i, j), image.GetBlue(i, j));
 					if (curr_colour == sear_colour
-						|| (abs(curr_colour.Red() - sear_colour.Red()) <= (10 * multi)
-							&& (abs(curr_colour.Green() - sear_colour.Green())) <= (10 * multi)
-							&& (abs(curr_colour.Blue() - sear_colour.Blue())) <= (10 * multi))) {
+						|| ((abs(curr_colour.Red() - sear_colour.Red()) <= (10 * multi))
+							&& (abs(curr_colour.Green() - sear_colour.Green()) <= (10 * multi))
+							&& (abs(curr_colour.Blue() - sear_colour.Blue()) <= (10 * multi)))) {
 						setPointerPosition(i, j);
 						m_selectedColour = sear_colour;
 						this->Refresh();
