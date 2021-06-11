@@ -155,7 +155,9 @@ void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
 {
 int sliderValue = m_slider5->GetValue();
 if (sliderValue < 1)
-sliderValue = 1;
+{
+    sliderValue = 1;
+}
 hexagon->setSliderValue(255 * sliderValue / 100);
 }
 
