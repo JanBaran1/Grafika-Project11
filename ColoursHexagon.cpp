@@ -149,7 +149,8 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 		m_selectedColour = colour;
 		if (m_image.IsOk())
 		{
-			m_imageSuwak = wxImage(m_image);
+			//m_imageSuwak = wxImage(m_image);
+			m_imageSuwak = m_image.Copy();
 			ChangeColour(&m_image);
 			
 			

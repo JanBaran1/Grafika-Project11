@@ -58,48 +58,42 @@ void GUIMyFrame1::m_panel5OnUpdateUI( wxUpdateUIEvent& event )
 
 void GUIMyFrame1::m_button1OnButtonClick( wxCommandEvent& event )
 {
-std::shared_ptr<wxFileDialog> WxOpenFileDialog1(new wxFileDialog(this, _("Choose a file"), _(""), _(""), _("JPEG files (*.jpg)|*.jpg"), wxFD_OPEN));
-if (WxOpenFileDialog1->ShowModal() == wxID_OK)
-{
-if (!ImageOrg.LoadFile(WxOpenFileDialog1->GetPath(), wxBITMAP_TYPE_JPEG))
-wxLogError(_("Nie można załadować obrazka"));
-else
-{
-wxImage TempImg(ImageOrg);
-//TempImg.Rescale(120, 80);
-//MyImage.Paste(TempImg, MyImage.GetWidth() - 120, 0);
-//MyBitmap = wxBitmap(MyImage);
-MyImage = TempImg;
-hexagon->setImage(MyImage);
-hexagon->setImageSuwak(MyImage);
-//ImageCpy = TempImg;
-//ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-//MyBitmap = wxBitmap(ImageCpy);
-ChosenColour = wxColor(255, 255, 255);
-hexagon->setChosenColour(ChosenColour);
-DrawColour();
-DrawPicture(bright,sat);
-}
-//if (MyBitmap.Ok()) this->SetTitle(WxOpenFileDialog1->GetFilename());
-//Refresh();
-}
+    std::shared_ptr<wxFileDialog> WxOpenFileDialog1(new wxFileDialog(this, _("Choose a file"), _(""), _(""), _("JPEG files (*.jpg)|*.jpg"), wxFD_OPEN));
+    if (WxOpenFileDialog1->ShowModal() == wxID_OK)
+    {
+        if (!ImageOrg.LoadFile(WxOpenFileDialog1->GetPath(), wxBITMAP_TYPE_JPEG))
+            wxLogError(_("Nie można załadować obrazka"));
+        else
+        {
+            wxImage TempImg(ImageOrg);
+
+            MyImage = TempImg;
+            hexagon->m_image = MyImage.Copy();
+            hexagon->m_imageSuwak = MyImage.Copy();
+
+            ChosenColour = wxColor(255, 255, 255);
+            hexagon->setChosenColour(ChosenColour);
+            DrawColour();
+            DrawPicture(bright,sat);
+        }
+
+    }
 }
 
 void GUIMyFrame1::m_button2OnButtonClick( wxCommandEvent& event )
 {
-std::shared_ptr<wxFileDialog> wxSaveFileDialog1(new wxFileDialog(this, _("Save file"), "", "",
-"JPEG files (*.jpg)|*.jpg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT));
+    std::shared_ptr<wxFileDialog> wxSaveFileDialog1(new wxFileDialog(this, _("Save file"), "", "", "JPEG files (*.jpg)|*.jpg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT));
 
-if (wxSaveFileDialog1->ShowModal() == wxID_CANCEL)
-return;
-wxFileOutputStream output_stream(wxSaveFileDialog1->GetPath());
-if (!output_stream.IsOk())
-{
-wxLogError("Cannot save current contents in file '%s'.", wxSaveFileDialog1->GetPath());
-return;
-}
-else
-ImageCpy.SaveFile(output_stream, "image/jpeg");
+    if (wxSaveFileDialog1->ShowModal() == wxID_CANCEL)
+        return;
+    wxFileOutputStream output_stream(wxSaveFileDialog1->GetPath());
+    if (!output_stream.IsOk())
+    {
+        wxLogError("Cannot save current contents in file '%s'.", wxSaveFileDialog1->GetPath());
+        return;
+    }
+    else
+        ImageCpy.SaveFile(output_stream, "image/jpeg");
 }
 
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
@@ -108,7 +102,8 @@ void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
     if (MyImage.IsOk())
     {
         hexagon->setSuwak(m_slider1->GetValue() - 50. / 50.);
-        hexagon->setImage(hexagon->getImageSuwak());
+        //hexagon->setImage(hexagon->getImageSuwak());
+        hexagon->m_image = hexagon->m_imageSuwak.Copy();
         hexagon->ChangeColour(hexagon->getImage());
         DrawPicture(bright, sat);
        
@@ -117,33 +112,27 @@ void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
 {
-// TODO: Implement m_slider2OnScroll
     zmiana = m_slider2->GetValue();
+    zmiana_flag == true;
     DrawPicture(bright, sat);
 }
 
 void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 {
-// TODO: Implement m_slider3OnScroll
-//Brightness((m_slider3->GetValue() -50)/50. * 200 );
-bright = (m_slider3->GetValue() - 50) / 50. * 150;
-//Repaint();
-bright_flag = true;
-DrawPicture(bright,sat);
+    bright = (m_slider3->GetValue() - 50) / 50. * 150;
+    bright_flag = true;
+    DrawPicture(bright,sat);
 }
 
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
 {
-// TODO: Implement m_slider4OnScroll
-sat = ((m_slider4->GetValue()-50)*2) ;
-//Repaint();
-sat_flag = true;
-DrawPicture(bright,sat);
+    sat = ((m_slider4->GetValue()-50)*2);
+    sat_flag = true;
+    DrawPicture(bright,sat);
 }
 
 void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
 {
-// TODO: Implement m_slider5OnScroll
     int sliderValue = m_slider5->GetValue();
     if (sliderValue < 1)
         sliderValue = 1;
@@ -161,21 +150,10 @@ void GUIMyFrame1::DrawColour()
     }
 }
 
-/*void GUIMyFrame1::DrawPicture(wxPaintEvent& e)
-{
-    //wxAutoBufferedPaintDC MyDC(m_panel3);
-    wxClientDC MyDC(m_panel3);
-    wxBufferedDC buffDC(&MyDC);
-    buffDC.Clear();
-    m_panel3->PrepareDC(buffDC);
-    
-    
-    if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0);
-}
-      */
+     
 void GUIMyFrame1::DrawPicture(int bright,double sat)
 {
-    //wxAutoBufferedPaintDC MyDC(m_panel3);
+   
     wxClientDC MyDC(m_panel3);
     wxBufferedDC buffDC(&MyDC);
 
@@ -257,7 +235,7 @@ void GUIMyFrame1::Brightness(int value)
     // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
     //ImageCpy = MyImage.Copy();
     //unsigned char* piks = ImageCpy.GetData();
-    hexagon->m_image = wxImage(hexagon->m_imageSuwak);
+    hexagon->m_image = hexagon->m_imageSuwak.Copy();
     unsigned char* piks = hexagon->m_image.GetData();
 
     int rozmiar = 3* hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
@@ -305,6 +283,7 @@ void GUIMyFrame1::Saturation(double value)
 
 void GUIMyFrame1::SilaZmian(double value)
 {
+    //unsigned char* piks = ImageCpy.GetData();
     unsigned char* piks = ImageCpy.GetData();
 
     int rozmiar = 3 * ImageCpy.GetWidth() * ImageCpy.GetHeight();
