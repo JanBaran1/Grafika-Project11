@@ -27,6 +27,8 @@ class Hexagon : public wxPanel {
 		void ChangeColour(wxImage* Image);
 		void setChosenColour(wxColour Colour) { m_ChosenColour = Colour; }
 		wxColour getChosenColour() { return m_ChosenColour; }
+		wxImage getImageSuwak() { return m_imageSuwak; }
+		void setImageSuwak(wxImage img) { m_imageSuwak = img; }
 		//int suwak = 0;
 	private:
 		static const int m_width = 200;
@@ -36,6 +38,7 @@ class Hexagon : public wxPanel {
 		wxWindow* m_parent;
 		wxWindowDC* m_windowDC;
 		wxImage m_image;
+		wxImage m_imageSuwak;
 		wxImage m_bgImage;
 		wxBitmap m_bitmap;
 		wxColour m_ChosenColour = wxColour(255,255,255);

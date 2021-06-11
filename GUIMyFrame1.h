@@ -41,8 +41,10 @@ class GUIMyFrame1 : public MyFrame1
 		wxColour ChosenColour;
 		Hexagon* hexagon;
 		int bright = 0;
+		bool bright_flag = false;
+		bool sat_flag = false;
 		double sat = 0;
-		bool CC = 0;
+		
 
 		void Brightness(int value); // funkcja zmieniajaca jasnosc obrazka
 		void Repaint();

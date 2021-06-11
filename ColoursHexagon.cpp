@@ -98,9 +98,9 @@ void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy 
 
 	m_bitmap = wxBitmap(m_bgImage);
 	memoryDC.SelectObject(m_bitmap);
-	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 0, true);
-	memoryDC.DrawBitmap(wxBitmap(greenSquare), 49, 27, true);
+	memoryDC.DrawBitmap(wxBitmap(greenSquare), 48, 27, true);
 	memoryDC.DrawBitmap(wxBitmap(blueSquare), -49, 27, true);
+	memoryDC.DrawBitmap(wxBitmap(redSquare), 0, 1, true);
 	wxGraphicsContext* gCon = wxGraphicsContext::Create(memoryDC);
 	if (localMaxColourValue > 75) {
 		gCon->SetPen(*wxBLACK_PEN);
@@ -135,8 +135,12 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 		&& (colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR) || (mouseY > 60 && mouseY < 160))) {
 		setPointerPosition(mouseX, mouseY);
 		m_selectedColour = colour;
-		if(m_image.IsOk())
+		if (m_image.IsOk())
+		{
+			m_imageSuwak = m_image;
 			ChangeColour(&m_image);
+			
+		}
 		m_ChosenColour = m_selectedColour;
 
 
@@ -153,25 +157,33 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 
 void Hexagon::ChangeColour(wxImage* Image)
 {
-	auto data = Image->GetData();
-	int w = Image->GetWidth();
-	int h = Image->GetHeight();
-	double x = suwak;
-	
-
-	for (int i = 0; i < 3 * w * h; i += 3)
+	if (m_ChosenColour.IsOk())
 	{
-		if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
+		auto data = Image->GetData();
+		int w = Image->GetWidth();
+		int h = Image->GetHeight();
+		double x = suwak;
+
+
+		for (int i = 0; i < 3 * w * h; i += 3)
 		{
-			data[i] = getSelectedColour().Red();
-			data[i + 1] = getSelectedColour().Green();
-			data[i + 2] = getSelectedColour().Blue();
-		}
-		else
-		{
-			data[i] = data[i] *(1+1/(fabs(m_ChosenColour.Red() - getSelectedColour().Red()))*getSuwak());
-			data[i + 1] = data[i + 1] * (1+1 / (fabs(m_ChosenColour.Green() -getSelectedColour().Green()))* getSuwak());
-			data[i + 2] = data[i + 2] * (1+1 / (fabs(m_ChosenColour.Blue() -getSelectedColour().Blue()))* getSuwak());
+			if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
+			{
+				data[i] = m_selectedColour.Red() * suwak;
+				data[i + 1] = m_selectedColour.Green() * suwak;
+				data[i + 2] = m_selectedColour.Blue() * suwak;
+			}
+
+			/*else
+			{
+
+				//data[i] = data[i] *(1/(fabs(m_ChosenColour.Red() - getSelectedColour().Red())));
+				data[i] = data[i] * (1. / (fabs(m_selectedColour.Red() - data[i]))) * x;
+				//data[i + 1] = data[i + 1] * (1 / (fabs(m_ChosenColour.Green() -getSelectedColour().Green())));
+				data[i + 1] = data[i + 1] * (1. / (fabs(m_selectedColour.Green() - data[i + 1]))) * x;
+				//data[i + 2] = data[i + 2] * (1 ./ (fabs(m_ChosenColour.Blue() -getSelectedColour().Blue())));
+				data[i + 2] = data[i + 2] * (1. / (fabs(m_selectedColour.Blue() - data[i + 2]))) * x;
+			}*/
 		}
 	}
 }
@@ -180,7 +192,7 @@ void Hexagon::erase(wxEraseEvent& event) { //skoñczone
 	//event.Skip();
 }
 
-wxColour Hexagon::getSelectedColour() { //skoñczone
+inline wxColour Hexagon::getSelectedColour() { //skoñczone
 	return m_selectedColour;
 }
 
@@ -227,7 +239,7 @@ void Hexagon::setSliderValue(unsigned int sliderValue) {
 	m_sliderValue = sliderValue;
 	this->Refresh();
 }
-double Hexagon::getSuwak() {
+inline double Hexagon::getSuwak() {
 	return suwak;
 }
 
