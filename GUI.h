@@ -58,9 +58,13 @@ class MyFrame1 : public wxFrame
 		virtual void m_button1OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_button2OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_slider1OnScroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_slider1OnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider2OnScroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_slider2OnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider3OnScroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_slider3OnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider4OnScroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_slider4OnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider5OnScroll( wxScrollEvent& event ) { event.Skip(); }
 		
 	

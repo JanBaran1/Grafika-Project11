@@ -15,34 +15,34 @@ MyFrame1( parent )
 
 void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 {
-    if (ImageCpy.IsOk()){
-        unsigned int x_position = event.GetPosition().x;
-        unsigned int y_position = event.GetPosition().y;
-        auto data = ImageCpy.GetData();
-        unsigned int width = ImageCpy.GetWidth();
-        unsigned int c1 = data[3 * y_position * width + 3 * x_position];
-        unsigned int c2 = data[3 * y_position * width + 3 * x_position + 1];
-        unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
-        ChosenColour = wxColour(c1, c2, c3);
-        hexagon->setChosenColour(ChosenColour);
+if (ImageCpy.IsOk()){
+unsigned int x_position = event.GetPosition().x;
+unsigned int y_position = event.GetPosition().y;
+auto data = ImageCpy.GetData();
+unsigned int width = ImageCpy.GetWidth();
+unsigned int c1 = data[3 * y_position * width + 3 * x_position];
+unsigned int c2 = data[3 * y_position * width + 3 * x_position + 1];
+unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
+ChosenColour = wxColour(c1, c2, c3);
+hexagon->setChosenColour(ChosenColour);
 
-        wxColour selectedColour = wxColour(ImageCpy.GetRed(x_position, y_position), ImageCpy.GetGreen(x_position, y_position), ImageCpy.GetBlue(x_position, y_position));
-        hexagon->setSelectedColour(selectedColour);
-        m_slider5->SetValue(hexagon->getSliderValue());
-        DrawColour();
+wxColour selectedColour = wxColour(ImageCpy.GetRed(x_position, y_position), ImageCpy.GetGreen(x_position, y_position), ImageCpy.GetBlue(x_position, y_position));
+hexagon->setSelectedColour(selectedColour);
+m_slider5->SetValue(hexagon->getSliderValue());
+DrawColour();
 
-    }
+}
 }
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-    DrawPicture(bright,sat);
-    //Repaint();
+DrawPicture(bright,sat);
+//Repaint();
 }
 
 void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
 {
-  //nie dziala
+//nie dziala
 
 }
 
@@ -58,85 +58,105 @@ void GUIMyFrame1::m_panel5OnUpdateUI( wxUpdateUIEvent& event )
 
 void GUIMyFrame1::m_button1OnButtonClick( wxCommandEvent& event )
 {
-    std::shared_ptr<wxFileDialog> WxOpenFileDialog1(new wxFileDialog(this, _("Choose a file"), _(""), _(""), _("JPEG files (*.jpg)|*.jpg"), wxFD_OPEN));
-    if (WxOpenFileDialog1->ShowModal() == wxID_OK)
-    {
-        if (!ImageOrg.LoadFile(WxOpenFileDialog1->GetPath(), wxBITMAP_TYPE_JPEG))
-            wxLogError(_("Nie można załadować obrazka"));
-        else
-        {
-            wxImage TempImg(ImageOrg);
+std::shared_ptr<wxFileDialog> WxOpenFileDialog1(new wxFileDialog(this, _("Choose a file"), _(""), _(""), _("JPEG files (*.jpg)|*.jpg"), wxFD_OPEN));
+if (WxOpenFileDialog1->ShowModal() == wxID_OK)
+{
+if (!ImageOrg.LoadFile(WxOpenFileDialog1->GetPath(), wxBITMAP_TYPE_JPEG))
+wxLogError(_("Nie można załadować obrazka"));
+else
+{
+wxImage TempImg(ImageOrg);
 
-            MyImage = TempImg;
-            hexagon->m_image = MyImage.Copy();
-            hexagon->m_imageSuwak = MyImage.Copy();
+MyImage = TempImg;
+hexagon->m_image = MyImage.Copy();
+hexagon->m_imageSuwak = MyImage.Copy();
 
-            ChosenColour = wxColor(255, 255, 255);
-            hexagon->setChosenColour(ChosenColour);
-            DrawColour();
-            DrawPicture(bright,sat);
-        }
+ChosenColour = wxColor(255, 255, 255);
+hexagon->setChosenColour(ChosenColour);
+DrawColour();
+DrawPicture(bright,sat);
+}
 
-    }
+}
 }
 
 void GUIMyFrame1::m_button2OnButtonClick( wxCommandEvent& event )
 {
-    std::shared_ptr<wxFileDialog> wxSaveFileDialog1(new wxFileDialog(this, _("Save file"), "", "", "JPEG files (*.jpg)|*.jpg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT));
+std::shared_ptr<wxFileDialog> wxSaveFileDialog1(new wxFileDialog(this, _("Save file"), "", "", "JPEG files (*.jpg)|*.jpg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT));
 
-    if (wxSaveFileDialog1->ShowModal() == wxID_CANCEL)
-        return;
-    wxFileOutputStream output_stream(wxSaveFileDialog1->GetPath());
-    if (!output_stream.IsOk())
-    {
-        wxLogError("Cannot save current contents in file '%s'.", wxSaveFileDialog1->GetPath());
-        return;
-    }
-    else
-        ImageCpy.SaveFile(output_stream, "image/jpeg");
+if (wxSaveFileDialog1->ShowModal() == wxID_CANCEL)
+return;
+wxFileOutputStream output_stream(wxSaveFileDialog1->GetPath());
+if (!output_stream.IsOk())
+{
+wxLogError("Cannot save current contents in file '%s'.", wxSaveFileDialog1->GetPath());
+return;
+}
+else
+ImageCpy.SaveFile(output_stream, "image/jpeg");
 }
 
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider1OnScroll
-    if (MyImage.IsOk())
-    {
-        hexagon->setSuwak(m_slider1->GetValue() - 50. / 50.);
-        //hexagon->setImage(hexagon->getImageSuwak());
-        hexagon->m_image = hexagon->m_imageSuwak.Copy();
-        hexagon->ChangeColour(hexagon->getImage());
-        DrawPicture(bright, sat);
-       
-    }
+if (MyImage.IsOk())
+{
+hexagon->setSuwak((m_slider1->GetValue() - 50.) / 10.);
+//hexagon->setImage(hexagon->getImageSuwak());
+hexagon->m_image = hexagon->m_imageSuwak.Copy();
+hexagon->ChangeColour(hexagon->getImage());
+DrawPicture(bright, sat);
+
+}
+}
+
+void GUIMyFrame1::m_slider1OnScrollChanged( wxScrollEvent& event )
+{
+    hexagon->m_imageSuwak = hexagon->m_image.Copy();
 }
 
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
 {
-    zmiana = m_slider2->GetValue();
-    zmiana_flag == true;
-    DrawPicture(bright, sat);
+zmiana = m_slider2->GetValue();
+zmiana_flag == true;
+DrawPicture(bright, sat);
+}
+
+void GUIMyFrame1::m_slider2OnScrollChanged( wxScrollEvent& event )
+{
+    hexagon->m_imageSuwak = hexagon->m_image.Copy();
 }
 
 void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 {
-    bright = (m_slider3->GetValue() - 50) / 50. * 150;
-    bright_flag = true;
-    DrawPicture(bright,sat);
+bright = (m_slider3->GetValue() - 50) / 50. * 100;
+bright_flag = true;
+DrawPicture(bright,sat);
+}
+
+void GUIMyFrame1::m_slider3OnScrollChanged( wxScrollEvent& event )
+{
+    hexagon->m_imageSuwak = hexagon->m_image.Copy();
 }
 
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
 {
-    sat = ((m_slider4->GetValue()-50)*2);
-    sat_flag = true;
-    DrawPicture(bright,sat);
+sat = ((m_slider4->GetValue()-50)*2);
+sat_flag = true;
+DrawPicture(bright,sat);
+}
+
+void GUIMyFrame1::m_slider4OnScrollChanged( wxScrollEvent& event )
+{
+    hexagon->m_imageSuwak = hexagon->m_image.Copy();
 }
 
 void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
 {
-    int sliderValue = m_slider5->GetValue();
-    if (sliderValue < 1)
-        sliderValue = 1;
-    hexagon->setSliderValue(255 * sliderValue / 100);
+int sliderValue = m_slider5->GetValue();
+if (sliderValue < 1)
+sliderValue = 1;
+hexagon->setSliderValue(255 * sliderValue / 100);
 }
 
 
@@ -194,22 +214,6 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
    
 }
 
-void GUIMyFrame1::Repaint()
-{
-    //ImageCpy = MyImage;
-    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-   if (MyImage.IsOk())
-   {
-    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-        MyBitmap = wxBitmap(ImageCpy);
-    }
-    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
-    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
-   // wxBufferedDC buffDC(&dc);
-    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
-    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
-}
-
 void GUIMyFrame1::ChangeColour(wxImage *Image)
 {
     if (true)
@@ -228,6 +232,22 @@ void GUIMyFrame1::ChangeColour(wxImage *Image)
             }
         }       
     }
+}
+
+void GUIMyFrame1::Repaint()
+{
+    //ImageCpy = MyImage;
+    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+   if (MyImage.IsOk())
+   {
+    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+        MyBitmap = wxBitmap(ImageCpy);
+    }
+    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
+    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
+   // wxBufferedDC buffDC(&dc);
+    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
+    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
 }
 
 void GUIMyFrame1::Brightness(int value)
@@ -254,39 +274,14 @@ void GUIMyFrame1::Brightness(int value)
     }  
 }
 
-void GUIMyFrame1::Saturation(double value)
-{
-    // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
-    //ImageCpy = MyImage.Copy();
-    unsigned char* piks = ImageCpy.GetData();
-
-    int rozmiar = 3 * ImageCpy.GetWidth() * ImageCpy.GetHeight();
-    
-    double x = value ;
-    for (unsigned k = 0; k < rozmiar;k+=3) {
-        int szary = (piks[k] + piks[k + 1] + piks[k + 2]) / 3;
-        
-        for (int i = 0; i < 3; i++)
-        {
-           
-            int tmp = szary + (piks[k + i] - szary) *( x/100+1.0);
-
-            if (tmp > 255)
-                tmp = 255;
-            else if (tmp < 0)
-                tmp = 0;
-
-            piks[k + i] = tmp;
-        }
-    }
-}
-
 void GUIMyFrame1::SilaZmian(double value)
 {
     //unsigned char* piks = ImageCpy.GetData();
-    unsigned char* piks = ImageCpy.GetData();
+    //unsigned char* piks = ImageCpy.GetData();
+    hexagon->m_image = hexagon->m_imageSuwak.Copy();
+    unsigned char* piks = hexagon->m_image.GetData();
 
-    int rozmiar = 3 * ImageCpy.GetWidth() * ImageCpy.GetHeight();
+    int rozmiar = 3 * hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
 
     
     for (unsigned k = 0; k < rozmiar; k += 3) {
@@ -322,4 +317,33 @@ void GUIMyFrame1::SilaZmian(double value)
     }
 
 
+}
+
+void GUIMyFrame1::Saturation(double value)
+{
+    // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
+    //ImageCpy = MyImage.Copy();
+    //unsigned char* piks = ImageCpy.GetData();
+    hexagon->m_image = hexagon->m_imageSuwak.Copy();
+    unsigned char* piks = hexagon->m_image.GetData();
+
+    int rozmiar = 3 * hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
+    
+    double x = value ;
+    for (unsigned k = 0; k < rozmiar;k+=3) {
+        int szary = (piks[k] + piks[k + 1] + piks[k + 2]) / 3;
+        
+        for (int i = 0; i < 3; i++)
+        {
+           
+            int tmp = szary + (piks[k + i] - szary) *( x/100+1.0);
+
+            if (tmp > 255)
+                tmp = 255;
+            else if (tmp < 0)
+                tmp = 0;
+
+            piks[k + i] = tmp;
+        }
+    }
 }

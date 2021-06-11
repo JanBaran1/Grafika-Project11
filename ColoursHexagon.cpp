@@ -154,6 +154,7 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 			ChangeColour(&m_image);
 			
 			
+			
 		}
 		//m_ChosenColour = m_selectedColour;
 

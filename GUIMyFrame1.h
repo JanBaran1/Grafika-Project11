@@ -26,9 +26,13 @@ class GUIMyFrame1 : public MyFrame1
 		void m_button1OnButtonClick( wxCommandEvent& event );
 		void m_button2OnButtonClick( wxCommandEvent& event );
 		void m_slider1OnScroll( wxScrollEvent& event );
+		void m_slider1OnScrollChanged( wxScrollEvent& event );
 		void m_slider2OnScroll( wxScrollEvent& event );
+		void m_slider2OnScrollChanged( wxScrollEvent& event );
 		void m_slider3OnScroll( wxScrollEvent& event );
+		void m_slider3OnScrollChanged( wxScrollEvent& event );
 		void m_slider4OnScroll( wxScrollEvent& event );
+		void m_slider4OnScrollChanged( wxScrollEvent& event );
 		void m_slider5OnScroll( wxScrollEvent& event );
 	public:
 		/** Constructor */
@@ -59,6 +63,7 @@ class GUIMyFrame1 : public MyFrame1
 
 		//moje zmiany:
 		//Hexagon* hexagon;
+
 
 
 

@@ -718,7 +718,7 @@
                                 <event name="OnRightUp"></event>
                                 <event name="OnScroll">m_slider1OnScroll</event>
                                 <event name="OnScrollBottom"></event>
-                                <event name="OnScrollChanged"></event>
+                                <event name="OnScrollChanged">m_slider1OnScrollChanged</event>
                                 <event name="OnScrollLineDown"></event>
                                 <event name="OnScrollLineUp"></event>
                                 <event name="OnScrollPageDown"></event>
@@ -909,7 +909,7 @@
                                 <event name="OnRightUp"></event>
                                 <event name="OnScroll">m_slider2OnScroll</event>
                                 <event name="OnScrollBottom"></event>
-                                <event name="OnScrollChanged"></event>
+                                <event name="OnScrollChanged">m_slider2OnScrollChanged</event>
                                 <event name="OnScrollLineDown"></event>
                                 <event name="OnScrollLineUp"></event>
                                 <event name="OnScrollPageDown"></event>
@@ -1100,7 +1100,7 @@
                                 <event name="OnRightUp"></event>
                                 <event name="OnScroll">m_slider3OnScroll</event>
                                 <event name="OnScrollBottom"></event>
-                                <event name="OnScrollChanged"></event>
+                                <event name="OnScrollChanged">m_slider3OnScrollChanged</event>
                                 <event name="OnScrollLineDown"></event>
                                 <event name="OnScrollLineUp"></event>
                                 <event name="OnScrollPageDown"></event>
@@ -1291,7 +1291,7 @@
                                 <event name="OnRightUp"></event>
                                 <event name="OnScroll">m_slider4OnScroll</event>
                                 <event name="OnScrollBottom"></event>
-                                <event name="OnScrollChanged"></event>
+                                <event name="OnScrollChanged">m_slider4OnScrollChanged</event>
                                 <event name="OnScrollLineDown"></event>
                                 <event name="OnScrollLineUp"></event>
                                 <event name="OnScrollPageDown"></event>
