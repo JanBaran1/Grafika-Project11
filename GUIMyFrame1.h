@@ -43,12 +43,14 @@ class GUIMyFrame1 : public MyFrame1
 		int bright = 0;
 		double sat = 0;
 		bool CC = 0;
+		int zmiana = 0;
 
 		void Brightness(int value); // funkcja zmieniajaca jasnosc obrazka
 		void Repaint();
 		void Saturation(double value);
+		void SilaZmian(double value);
 		//void DrawPicture(wxPaintEvent& e);
-		void DrawPicture(int bright,double sat);
+		void DrawPicture(int bright,double sat,int zmiana);
 		void DrawColour();
 		void ChangeColour(wxImage *Image);
 

@@ -36,14 +36,14 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
 {
-    DrawPicture(bright,sat);
+    DrawPicture(bright,sat,zmiana);
     //Repaint();
 }
 
 void GUIMyFrame1::m_panel4OnClick( wxMouseEvent& event )
 {
     ChangeColour(&MyImage);
-    DrawPicture(bright, sat);
+    DrawPicture(bright, sat,zmiana);
 
 }
 
@@ -78,7 +78,7 @@ hexagon->setImage(MyImage);
 ChosenColour = wxColor(255, 255, 255);
 hexagon->setChosenColour(ChosenColour);
 DrawColour();
-DrawPicture(bright,sat);
+DrawPicture(bright,sat,zmiana);
 }
 //if (MyBitmap.Ok()) this->SetTitle(WxOpenFileDialog1->GetFilename());
 //Refresh();
@@ -105,13 +105,15 @@ ImageCpy.SaveFile(output_stream, "image/jpeg");
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider1OnScroll
-    hexagon->setSuwak(m_slider1->GetValue()/100. );
-   
+    //hexagon->setSuwak(m_slider1->GetValue()/100. );
+    
 }
 
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider2OnScroll
+    zmiana = m_slider2->GetValue();
+    DrawPicture(bright, sat, zmiana);
 }
 
 void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
@@ -120,7 +122,7 @@ void GUIMyFrame1::m_slider3OnScroll( wxScrollEvent& event )
 //Brightness((m_slider3->GetValue() -50)/50. * 200 );
 bright = (m_slider3->GetValue() - 50) / 50. * 150;
 //Repaint();
-DrawPicture(bright,sat);
+DrawPicture(bright,sat,zmiana);
 }
 
 void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
@@ -128,7 +130,7 @@ void GUIMyFrame1::m_slider4OnScroll( wxScrollEvent& event )
 // TODO: Implement m_slider4OnScroll
 sat = ((m_slider4->GetValue()-50)*2) ;
 //Repaint();
-DrawPicture(bright,sat);
+DrawPicture(bright,sat,zmiana);
 }
 
 void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
@@ -163,7 +165,7 @@ void GUIMyFrame1::DrawColour()
     if (MyBitmap.Ok()) buffDC.DrawBitmap(MyBitmap, 0, 0);
 }
       */
-void GUIMyFrame1::DrawPicture(int bright,double sat)
+void GUIMyFrame1::DrawPicture(int bright,double sat,int zmiana)
 {
     //wxAutoBufferedPaintDC MyDC(m_panel3);
     wxClientDC MyDC(m_panel3);
@@ -177,6 +179,7 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
         
         Brightness(bright);
         Saturation(sat);
+        SilaZmian(zmiana);
         
         MyBitmap = wxBitmap(ImageCpy);
         m_panel5->SetBackgroundColour(hexagon->getChosenColour());
@@ -275,4 +278,46 @@ void GUIMyFrame1::Saturation(double value)
             piks[k + i] = tmp;
         }
     }
+}
+
+void GUIMyFrame1::SilaZmian(double value)
+{
+    unsigned char* piks = ImageCpy.GetData();
+
+    int rozmiar = 3 * ImageCpy.GetWidth() * ImageCpy.GetHeight();
+
+    
+    for (unsigned k = 0; k < rozmiar; k += 3) {
+   
+        
+        int tmp1 = piks[k] * (100 - value) / 100 + hexagon->getSelectedColour().Red() * value / 100;
+        int tmp2 = piks[k+1] * (100 - value) / 100 + hexagon->getSelectedColour().Green() * value / 100;
+        int tmp3 = piks[k+2] * (100 - value) / 100 + hexagon->getSelectedColour().Blue() * value / 100;
+
+        
+
+            if (tmp1 > 255)
+                tmp1 = 255;
+            else if (tmp1 < 0)
+                tmp1 = 0;
+
+            piks[k] = tmp1;
+
+            if (tmp2 > 255)
+                tmp2 = 255;
+            else if (tmp2 < 0)
+                tmp2 = 0;
+
+            piks[k+1] = tmp2;
+
+            if (tmp3 > 255)
+                tmp3 = 255;
+            else if (tmp3 < 0)
+                tmp3 = 0;
+
+            piks[k+2] = tmp3;
+        
+    }
+
+
 }
