@@ -43,6 +43,7 @@ class GUIMyFrame1 : public MyFrame1
 		int bright = 0;
 		bool bright_flag = false;
 		bool sat_flag = false;
+		bool zmiana_flag = false;
 		double sat = 0;
 		bool CC = 0;
 		int zmiana = 0;

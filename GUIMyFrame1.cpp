@@ -196,6 +196,11 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
             Saturation(sat);
             sat_flag = false;
         }
+        if (zmiana_flag == true)
+        {
+            SilaZmian(zmiana);
+            zmiana_flag = false;
+        }
         MyBitmap = wxBitmap(ImageCpy);
        m_panel5->SetBackgroundColour(hexagon->getChosenColour());
         m_panel5->Refresh();
