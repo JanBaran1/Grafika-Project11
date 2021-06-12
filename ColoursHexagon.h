@@ -37,7 +37,7 @@ class Hexagon : public wxPanel {
 		static const int m_width = 200;
 		static const int m_height = 260;
 
-		wxColour m_selectedColour = wxColour(255,255,255);
+		wxColour m_selectedColour = wxColour(127, 127, 127);
 		wxWindow* m_parent;
 		wxWindowDC* m_windowDC;
 		//wxImage m_image;
