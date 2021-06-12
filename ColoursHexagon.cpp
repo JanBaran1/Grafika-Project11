@@ -181,6 +181,10 @@ void Hexagon::ChangeColour(wxImage* Image)
 		int red = 0;
 		int green = 0;
 		int blue = 0;
+		double y1;
+		double y2;
+		double y3;
+		WCHAR buffer[256];
 
 		for (int i = 0; i < 3 * w * h; i += 3)
 		{
@@ -193,11 +197,38 @@ void Hexagon::ChangeColour(wxImage* Image)
 
 			else
 			{
+				//y1 = fabs(m_selectedColour.Red() - data[i]);
+				//y2 = fabs(m_selectedColour.Green() - data[i + 1]);
+				//y3 = fabs(m_selectedColour.Blue() - data[i + 2]);
+
+				y1 = fabs(m_ChosenColour.Red() - data[i]);
+				y2 = fabs(m_ChosenColour.Green() - data[i + 1]);
+				y3 = fabs(m_ChosenColour.Blue() - data[i + 2]);
 				
 				
-				red = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red())));
-				green = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green())));
-				blue = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue())));
+				
+				
+				//red = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red())));
+				//green = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green())));
+				//blue = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue())));
+
+				//red = (data[i] * (100 - suwak) + 100./y1 * suwak)/100.;
+				//green = (data[i + 1] * (100 - suwak) + 100./y2 * suwak) / 100.;
+				//blue = (data[i + 2] * (100 - suwak) + 100./y3 * suwak) / 100.;
+				if (y1 != 0) 
+					red =  m_selectedColour.Red() * suwak/100. / y1;
+				else
+					red = m_selectedColour.Red();
+
+				if (y2 != 0)
+					green =  m_selectedColour.Green() * suwak / 100.  / y2;
+				else
+					green = m_selectedColour.Green();
+				if (y3 != 0)
+					blue =  m_selectedColour.Blue() * suwak / 100. / y3;
+				else
+					blue = m_selectedColour.Blue();
+				
 				if (red > 255)
 					red = 255;
 				if (green > 255)
@@ -205,12 +236,16 @@ void Hexagon::ChangeColour(wxImage* Image)
 				if (blue > 255)
 					blue = 255;
 
-				//data[i] = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red()) ));				
-				//data[i + 1] = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green()))) ;				
-				//data[i + 2] = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue()))) ;
+				
 				data[i] = red;
 				data[i + 1] = green;
 				data[i + 2] = blue;
+
+				if (i/3 == w * wsp_y + wsp_x)
+				{
+					_swprintf(buffer, L"RGB(%d,%d,%d): y1=%f, y2=%f, y3=%f;  red=%d, green=%d, blue=%d\n", m_ChosenColour.Red(), m_ChosenColour.Green(), m_ChosenColour.Blue(), y1, y2, y3, red, green, blue);
+					OutputDebugString(buffer);
+				}
 			}
 		}
 	}

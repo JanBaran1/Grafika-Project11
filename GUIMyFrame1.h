@@ -61,6 +61,8 @@ class GUIMyFrame1 : public MyFrame1
 		void DrawColour();
 		void ChangeColour(wxImage *Image);
 
+		
+
 		//moje zmiany:
 		//Hexagon* hexagon;
 

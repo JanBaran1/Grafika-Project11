@@ -18,6 +18,8 @@ void GUIMyFrame1::m_panel3OnLeft( wxMouseEvent& event )
 if (ImageCpy.IsOk()){
 unsigned int x_position = event.GetPosition().x;
 unsigned int y_position = event.GetPosition().y;
+hexagon->wsp_x = x_position;
+hexagon->wsp_y = y_position;
 auto data = ImageCpy.GetData();
 unsigned int width = ImageCpy.GetWidth();
 unsigned int c1 = data[3 * y_position * width + 3 * x_position];
@@ -101,7 +103,8 @@ void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 // TODO: Implement m_slider1OnScroll
 if (MyImage.IsOk())
 {
-hexagon->setSuwak((m_slider1->GetValue() - 50.) / 10.);
+//hexagon->setSuwak((m_slider1->GetValue() - 50.) / 10.);
+hexagon->setSuwak(m_slider1->GetValue());
 //hexagon->setImage(hexagon->getImageSuwak());
 hexagon->m_image = hexagon->m_imageSuwak.Copy();
 hexagon->ChangeColour(hexagon->getImage());
