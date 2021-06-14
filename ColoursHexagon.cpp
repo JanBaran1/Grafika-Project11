@@ -239,12 +239,14 @@ void Hexagon::ChangeColour(wxImage* Image)
 						if (d1 < ch1)
 						{
 
-							d1 = (1 - suwak / 100.) * d1 + suwak / 100. * (s1 + fabs(d1 - ch1));
+							d1 = (1 - suwak / 100.) * d1 + suwak  / 100. * (s1 + fabs(d1 - ch1));
+							
 						}
 							
 						else
 						{
 							d1 = (1 - suwak / 100.) * d1 + suwak / 100. * (s1 - fabs(d1 - ch1));
+							
 						}
 							
 						if (d1 > 360) d1 -= 360;
@@ -252,7 +254,7 @@ void Hexagon::ChangeColour(wxImage* Image)
 
 					else
 					{
-						d1 = d1 - fabs(s1 - ch1)   * suwak / 100. * 1. / (y1);
+						d1 = d1 + fabs(s1 - ch1)   * suwak / 100. * 1. / (y1);
 						if (d1 < 0)
 							d1 += 360;
 					}
