@@ -13,7 +13,6 @@ void HSLtoRGB(double &R, double &G, double &B, double H, double S, double L);
 class Hexagon : public wxPanel {
 	public:
 		Hexagon(wxPanel* parent);
-		Hexagon(wxPanel* parent, wxControl* control, wxColour* colour);
 
 		void drawHexagon(wxPaintEvent& event);
 		void leftClick(wxMouseEvent& event);
