@@ -152,7 +152,7 @@ void Hexagon::leftClick(wxMouseEvent& event) { //skoñczone
 			//m_imageSuwak = wxImage(m_image);
 			m_imageSuwak = m_image.Copy();
 			ChangeColour(&m_image);
-			
+			//m_imageSuwak = m_image.Copy();
 			
 			
 		}
@@ -178,79 +178,266 @@ void Hexagon::ChangeColour(wxImage* Image)
 		int w = Image->GetWidth();
 		int h = Image->GetHeight();
 		double x = suwak;
-		int red = 0;
-		int green = 0;
-		int blue = 0;
+		double red = 0;
+		double green = 0;
+		double blue = 0;
+		int r, g, b;
 		double y1;
 		double y2;
-		double y3;
+		double y3;	
+		double d1;
+		double d2;
+		double d3;
+		double ch1;
+		double ch2;
+		double ch3;
+		double s1 ;
+		double s2 ;
+		double s3 ;
+		double dd1;
+		double dd2;
+		double dd3;
 		WCHAR buffer[256];
-
+		int flagasss = 0;
+		RGBtoHSL(m_ChosenColour.Red(), m_ChosenColour.Green(), m_ChosenColour.Blue(), ch1, ch2, ch3);
+		RGBtoHSL(m_selectedColour.Red(), m_selectedColour.Green(), m_selectedColour.Blue(), s1, s2, s3);
+		
+		_swprintf(buffer, L"Chosen = (%d, %d, %d)", m_ChosenColour.Red(), m_ChosenColour.Green(), m_ChosenColour.Blue());
+		OutputDebugString(buffer);
+		_swprintf(buffer, L"Selected = (%d, %d, %d)", m_selectedColour.Red(), m_selectedColour.Green(), m_selectedColour.Blue());
+		OutputDebugString(buffer);
+		
 		for (int i = 0; i < 3 * w * h; i += 3)
-		{
-			if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
 			{
-				data[i] =	m_selectedColour.Red() ;
-				data[i + 1] = m_selectedColour.Green() ;
-				data[i + 2] = m_selectedColour.Blue() ;
-			}
-
-			else
-			{
-				//y1 = fabs(m_selectedColour.Red() - data[i]);
-				//y2 = fabs(m_selectedColour.Green() - data[i + 1]);
-				//y3 = fabs(m_selectedColour.Blue() - data[i + 2]);
-
-				y1 = fabs(m_ChosenColour.Red() - data[i]);
-				y2 = fabs(m_ChosenColour.Green() - data[i + 1]);
-				y3 = fabs(m_ChosenColour.Blue() - data[i + 2]);
-				
-				
-				
-				
-				//red = data[i] * (1 + x * 1. / (fabs(m_selectedColour.Red() - m_ChosenColour.Red())));
-				//green = data[i + 1] * (1 + x * 1. / (fabs(m_selectedColour.Green() - m_ChosenColour.Green())));
-				//blue = data[i + 2] * (1 + x * 1. / (fabs(m_selectedColour.Blue() - m_ChosenColour.Blue())));
-
-				//red = (data[i] * (100 - suwak) + 100./y1 * suwak)/100.;
-				//green = (data[i + 1] * (100 - suwak) + 100./y2 * suwak) / 100.;
-				//blue = (data[i + 2] * (100 - suwak) + 100./y3 * suwak) / 100.;
-				if (y1 != 0) 
-					red =  m_selectedColour.Red() * suwak/100. / y1;
-				else
-					red = m_selectedColour.Red();
-
-				if (y2 != 0)
-					green =  m_selectedColour.Green() * suwak / 100.  / y2;
-				else
-					green = m_selectedColour.Green();
-				if (y3 != 0)
-					blue =  m_selectedColour.Blue() * suwak / 100. / y3;
-				else
-					blue = m_selectedColour.Blue();
-				
-				if (red > 255)
-					red = 255;
-				if (green > 255)
-					green = 255;
-				if (blue > 255)
-					blue = 255;
-
-				
-				data[i] = red;
-				data[i + 1] = green;
-				data[i + 2] = blue;
-
-				if (i/3 == w * wsp_y + wsp_x)
+				if (m_ChosenColour.Red() == data[i] && m_ChosenColour.Green() == data[i + 1] && m_ChosenColour.Blue() == data[i + 2])
 				{
-					_swprintf(buffer, L"RGB(%d,%d,%d): y1=%f, y2=%f, y3=%f;  red=%d, green=%d, blue=%d\n", m_ChosenColour.Red(), m_ChosenColour.Green(), m_ChosenColour.Blue(), y1, y2, y3, red, green, blue);
-					OutputDebugString(buffer);
+					data[i] =	m_selectedColour.Red() ;
+					data[i + 1] = m_selectedColour.Green() ;
+					data[i + 2] = m_selectedColour.Blue() ;
 				}
-			}
+
+				else
+				{
+					if (true)
+					{
+						
+						r = data[i];
+						g = data[i + 1];
+						b = data[i + 2];
+						RGBtoHSL(data[i], data[i + 1], data[i + 2], d1, d2, d3);
+						dd1 = d1;
+						dd2 = d2;
+						dd3 = d3;
+						y1 = fabs(ch1 - d1);
+						y2 = fabs(ch2 - d2);
+						y3 = fabs(ch3 - d3);
+
+
+						if (fabs(y1) < 1e-6 )
+							d1 = s1;
+						else
+						{
+							if (fabs(y1 - 1) < 1)
+								y1 = 2.;
+							//if (d1 < s1)
+							if(true)
+							{
+								d1 = d1 + fabs(s1 - ch1)  * suwak / 100. * 1. / y1;
+								//d1 = (d1 - s1) / fabs(d1 - ch1) * (suwak/100.) + (s1 - ch1)/fabs(d1 - ch1) * (1 - suwak/100.);
+								//d1 = s1 / fabs(d1 - ch1) + d1*fabs(ch1 - d1)/360.;
+								if (d1 > 360) d1 -= 360;
+							}
+							else
+							{
+								d1 = d1 - fabs(s1 - ch1)  * suwak / 100. * 1. / y1;
+								if (d1 < 0)
+									d1 += 360;
+							}
+
+							//}
+
+
+							/*if (fabs(y2) < 1)
+								d2 = s2;
+							else
+							{
+								if (fabs(y2 - 1) < 1)
+									y2 = 2.;
+								if (d2 < s2)
+								{
+									d2 = d2 + fabs(s2 - ch2) * (1. / y2);
+									if (d2 > 100) d2 = 100;
+								}
+								else
+								{
+									d2 = d2 - fabs(s2 - ch2) * (1. / y2);
+									if (d2 < 0) d2 = 0;
+								}
+							}*/	
+
+							/*if (fabs(y3) < 1)
+								d3 = s3;
+							else
+							{
+								if(fabs(y3 - 1) < 1)
+									y3 = 2.;
+								if (d3 < s3)
+								{
+									d3 = d3 + fabs(s3 - ch3) * (1. / y3);
+									if (d3 > 100) d3 = 100;
+								}
+								else
+								{
+									d3 = d3 - fabs(s3 - ch3) * (1. / y3);
+									if (d3 < 0) d3 = 0;
+								}
+							}
+							//if (y3 == 0)
+							//	d3 = s3;
+							//else
+							//	d3 = s3 *  (1 / y3);  */
+						}
+						if (d1 != dd1)
+						{
+							flagasss = 1;
+						}
+						HSLtoRGB(red, green, blue, d1, d2, d3);
+
+
+
+
+						data[i] = red;
+						data[i + 1] = green;
+						data[i + 2] = blue;
+						//y3 = fabs(m_ChosenColour.Blue() - data[i + 2]);
+
+
+						
+
+
+
+
+						
+
+						if (i % 1000 == 0)
+							{
+								//_swprintf(buffer, L"RGB(%d,%d,%d): y1=%f, y2=%f, y3=%f;  red=%d, green=%d, blue=%d\n", m_ChosenColour.Red(), m_ChosenColour.Green(), m_ChosenColour.Blue(), y1, y2, y3, red, green, blue);
+								_swprintf(buffer, L"s=(%d, %d, %d), ch = (%d, %d, %d), pixiel wchodzacy = (%d, %d, %d), pixel wychodzacy = (%d, %d, %d), hsl = (%.1f, %.1f, %.1f)\n", m_selectedColour.Red(), m_selectedColour.Green(), m_selectedColour.Blue(), m_ChosenColour.Red(), m_ChosenColour.Green(), m_ChosenColour.Blue(), r, g, b, data[i], data[i + 1], data[i + 2], d1, d2, d3);
+								OutputDebugString(buffer);
+							}					 
+					}
+				}
 		}
+	
+				
+		
 	}
 }
+double maxk(double r, double g, double b)
+{
+	double m = r;
+	if (g > m)
+		m = g;
+	if (b > m)
+		m = b;
+	return m;
+}
+double mink(double r, double g, double b)
+{
+	double m = r;
+	if (g < m)
+		m = g;
+	if (b < m)
+		m = b;
+	return m;
+}
+void RGBtoHSL(double R, double G, double B, double &H, double &S, double &L)
+{
+	
+	double dr = R / 255.;
+	double dg = G / 255.;
+	double db = B / 255.;
+	double Cmax = maxk(dr,dg,db);
+	double Cmin = mink(dr, dg, db);
+	double delta = Cmax - Cmin;
+	L = (Cmax + Cmin) * 50;
+	if (fabs(delta) < 1e-6)
+	{
+		H = 0;
+		S = 0;
+		return;
+	}
+	/*else if (L < 50)
+	{
+		S = 100 * delta / (Cmax + Cmin);
+	}
+	else
+	{
+		S = 100 * delta / (2.0 - Cmax - Cmin);
+	} */
+	else
+	{
+		S = 100 * delta / (1 - fabs(L / 50. - 1));
+	}
+	if (Cmax == dr)
+		H = 60 * (dg - db) / delta;
+	else if(Cmax == dg)
+		H = 60 * (db - dr) / delta + 120;
+	else
+		H = 60 * (dr - dg) / delta + 240;
+	if (H < 0)
+		H += 360;
+	int z;
+}
 
+void HSLtoRGB(double &R, double &G, double &B, double H, double S, double L)
+{
+	double C = (1 - fabs(L / 50. - 1)) * S / 100.;
+	double X = C * (1 - fabs(std::fmod(H / 60., 2) - 1));
+	double m = L / 100. - C / 2.;
+	double r, g, b;
+	if (H >= 0 && H < 60)
+	{
+		r = C;
+		g = X;
+		b = 0;
+	}
+	else if (H >= 60 && H < 120)
+	{
+		r = X;
+		g = C;
+		b = 0;
+	}
+	else if (H >= 120 && H < 180) 
+	{
+		r = 0;
+		g = C;
+		b = X;
+	}
+	else if (H >= 180 && H < 240) 
+	{
+		r = 0;
+		g = X;
+		b = C;
+	}
+	else if (H >= 240 && H < 300)
+	{
+		r = X;
+		g = 0;
+		b = C;
+	}
+	else
+	{
+		r = C;
+		g = 0;
+		b = X;
+	}
+	R = (r + m) * 255.;
+	G = (g + m) * 255.;
+	B = (b + m) * 255.;
+	
+}
+ 
 void Hexagon::erase(wxEraseEvent& event) { //skoñczone
 	//event.Skip();
 }

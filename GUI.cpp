@@ -59,14 +59,14 @@ MyFrame1::MyFrame1( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	m_staticText2->Wrap( -1 );
 	bSizer3->Add( m_staticText2, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	m_slider1 = new wxSlider( this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	m_slider1 = new wxSlider( this, wxID_ANY, 0, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
 	bSizer3->Add( m_slider1, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	m_staticText3 = new wxStaticText( this, wxID_ANY, wxT("Siła zmian"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText3->Wrap( -1 );
 	bSizer3->Add( m_staticText3, 0, wxALIGN_CENTER|wxALL, 5 );
 	
-	m_slider2 = new wxSlider( this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
+	m_slider2 = new wxSlider( this, wxID_ANY, 0, 0, 100, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL );
 	bSizer3->Add( m_slider2, 0, wxALIGN_CENTER|wxALL, 5 );
 	
 	m_staticText4 = new wxStaticText( this, wxID_ANY, wxT("Jasność"), wxDefaultPosition, wxDefaultSize, 0 );

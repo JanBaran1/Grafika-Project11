@@ -34,6 +34,8 @@ m_slider5->SetValue(hexagon->getSliderValue());
 DrawColour();
 
 }
+
+
 }
 
 void GUIMyFrame1::m_panel3OnUpdateUI( wxUpdateUIEvent& event )
@@ -159,7 +161,7 @@ void GUIMyFrame1::m_slider5OnScroll( wxScrollEvent& event )
 int sliderValue = m_slider5->GetValue();
 if (sliderValue < 1)
 {
-    sliderValue = 1;
+sliderValue = 1;
 }
 hexagon->setSliderValue(255 * sliderValue / 100);
 }
@@ -219,6 +221,22 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
    
 }
 
+void GUIMyFrame1::Repaint()
+{
+    //ImageCpy = MyImage;
+    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+   if (MyImage.IsOk())
+   {
+    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+        MyBitmap = wxBitmap(ImageCpy);
+    }
+    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
+    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
+   // wxBufferedDC buffDC(&dc);
+    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
+    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
+}
+
 void GUIMyFrame1::ChangeColour(wxImage *Image)
 {
     if (true)
@@ -237,22 +255,6 @@ void GUIMyFrame1::ChangeColour(wxImage *Image)
             }
         }       
     }
-}
-
-void GUIMyFrame1::Repaint()
-{
-    //ImageCpy = MyImage;
-    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-   if (MyImage.IsOk())
-   {
-    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-        MyBitmap = wxBitmap(ImageCpy);
-    }
-    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
-    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
-   // wxBufferedDC buffDC(&dc);
-    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
-    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
 }
 
 void GUIMyFrame1::Brightness(int value)
@@ -277,52 +279,6 @@ void GUIMyFrame1::Brightness(int value)
 
         piks[k++] = tmp;
     }  
-}
-
-void GUIMyFrame1::SilaZmian(double value)
-{
-    //unsigned char* piksorg = ImageCpy.GetData();
-    //unsigned char* piks = ImageCpy.GetData();
-    // char* piksorg = hexagon->m_image.GetData();
-    hexagon->m_image = hexagon->m_imageSuwak.Copy();
-    unsigned char* piks = hexagon->m_image.GetData();
-
-    int rozmiar = 3 * hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
-
-    
-    for (unsigned k = 0; k < rozmiar; k += 3) {
-   
-        
-        int tmp1 =( MyImage.GetData()[k] )* (100 - value) / 100 + piks[k] * value / 100;
-        int tmp2 = (MyImage.GetData()[k+1]) * (100 - value) / 100 + piks[k+1] * value / 100;
-        int tmp3 = (MyImage.GetData()[k+2]) * (100 - value) / 100 + piks[k+2] * value / 100;
-
-        
-
-            if (tmp1 > 255)
-                tmp1 = 255;
-            else if (tmp1 < 0)
-                tmp1 = 0;
-
-            piks[k] = tmp1;
-
-            if (tmp2 > 255)
-                tmp2 = 255;
-            else if (tmp2 < 0)
-                tmp2 = 0;
-
-            piks[k+1] = tmp2;
-
-            if (tmp3 > 255)
-                tmp3 = 255;
-            else if (tmp3 < 0)
-                tmp3 = 0;
-
-            piks[k+2] = tmp3;
-        
-    }
-
-
 }
 
 void GUIMyFrame1::Saturation(double value)
@@ -352,4 +308,51 @@ void GUIMyFrame1::Saturation(double value)
             piks[k + i] = tmp;
         }
     }
+}
+
+void GUIMyFrame1::SilaZmian(double value)
+{
+    //unsigned char* piksorg = ImageCpy.GetData();
+    //unsigned char* piks = ImageCpy.GetData();
+    // char* piksorg = hexagon->m_image.GetData();
+    hexagon->m_image = hexagon->m_imageSuwak.Copy();
+    unsigned char* piks = hexagon->m_image.GetData();
+    auto dataOrg = ImageOrg.GetData();
+
+    int rozmiar = 3 * hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
+
+    
+    for (unsigned k = 0; k < rozmiar; k += 3) {
+   
+        
+        int tmp1 =( dataOrg[k] )* (value) / 100 + piks[k] * (100 - value) / 100;
+        int tmp2 = (dataOrg[k+1]) * ( value) / 100 + piks[k+1] * (100 - value) / 100;
+        int tmp3 = (dataOrg[k+2]) * ( value) / 100 + piks[k+2] * (100 - value) / 100;
+
+        
+
+            if (tmp1 > 255)
+                tmp1 = 255;
+            else if (tmp1 < 0)
+                tmp1 = 0;
+
+            piks[k] = tmp1;
+
+            if (tmp2 > 255)
+                tmp2 = 255;
+            else if (tmp2 < 0)
+                tmp2 = 0;
+
+            piks[k+1] = tmp2;
+
+            if (tmp3 > 255)
+                tmp3 = 255;
+            else if (tmp3 < 0)
+                tmp3 = 0;
+
+            piks[k+2] = tmp3;
+        
+    }
+
+
 }
