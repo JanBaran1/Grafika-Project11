@@ -196,6 +196,7 @@ void Hexagon::ChangeColour(wxImage* Image)
 		double s3 ;
 		WCHAR buffer[256];
 		int flaga = 1;
+
 		RGBtoHSL(m_ChosenColour.Red(), m_ChosenColour.Green(), m_ChosenColour.Blue(), ch1, ch2, ch3);
 		RGBtoHSL(m_selectedColour.Red(), m_selectedColour.Green(), m_selectedColour.Blue(), s1, s2, s3);
 		
@@ -207,7 +208,8 @@ void Hexagon::ChangeColour(wxImage* Image)
 				//y2 = fabs(ch2 - d2);
 				//y3 = fabs(ch3 - d3);
 				flaga = 1;
-				if (fabs(d1 - ch1) < 1)
+				
+				if (fabs(d1 - ch1) < 1 )
 				{
 					if (is_checked == true)
 					{
@@ -223,6 +225,7 @@ void Hexagon::ChangeColour(wxImage* Image)
 						y1 = 2.;
 						flaga = 1;
 					}
+					
 				}  
 
 				
