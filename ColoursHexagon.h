@@ -36,6 +36,8 @@ class Hexagon : public wxPanel {
 		wxImage m_image;
 		wxImage m_imageSuwak;
 		int wsp_x, wsp_y;
+		bool is_checked = false;
+		double suwak2 = 10.0;
 	private:
 		static const int m_width = 200;
 		static const int m_height = 260;

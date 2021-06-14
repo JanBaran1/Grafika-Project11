@@ -18,6 +18,7 @@
 #include <wx/string.h>
 #include <wx/sizer.h>
 #include <wx/button.h>
+#include <wx/checkbox.h>
 #include <wx/stattext.h>
 #include <wx/slider.h>
 #include <wx/frame.h>
@@ -38,8 +39,11 @@ class MyFrame1 : public wxFrame
 		wxPanel* m_panel5;
 		wxButton* m_button1;
 		wxButton* m_button2;
+		wxCheckBox* m_checkBox1;
 		wxStaticText* m_staticText2;
 		wxSlider* m_slider1;
+		wxStaticText* m_staticText6;
+		wxSlider* m_slider6;
 		wxStaticText* m_staticText3;
 		wxSlider* m_slider2;
 		wxStaticText* m_staticText4;
@@ -57,8 +61,11 @@ class MyFrame1 : public wxFrame
 		virtual void m_panel5OnUpdateUI( wxUpdateUIEvent& event ) { event.Skip(); }
 		virtual void m_button1OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_button2OnButtonClick( wxCommandEvent& event ) { event.Skip(); }
+		virtual void m_checkBox1OnCheckBox( wxCommandEvent& event ) { event.Skip(); }
 		virtual void m_slider1OnScroll( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider1OnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_slider6OnScroll( wxScrollEvent& event ) { event.Skip(); }
+		virtual void m_slider6OnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider2OnScroll( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider2OnScrollChanged( wxScrollEvent& event ) { event.Skip(); }
 		virtual void m_slider3OnScroll( wxScrollEvent& event ) { event.Skip(); }
