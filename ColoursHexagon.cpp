@@ -36,19 +36,6 @@ m_selectedColour(wxColour(MAX_COLOUR_VALUE, MAX_COLOUR_VALUE, MAX_COLOUR_VALUE))
 
 }
 
-Hexagon::Hexagon(wxPanel* parent, wxControl* control, wxColour* colour) :
-wxPanel(parent, wxID_ANY, wxPoint(0, 0), wxSize(m_width, m_height)),
-m_parent(parent),
-m_reactControl(control),
-m_colour(colour),
-m_windowDC(new wxWindowDC(this)){
-	m_bgImage.Create(m_width, m_height);
-
-	for (int i = 0; i < m_width; i++)
-		for (int j = 0; j < m_height; j++)
-			m_bgImage.SetRGB(i, j, BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR);
-}
-
 void Hexagon::drawHexagon(wxPaintEvent& event) { //do poprawy, ale dopiero, gdy bêdziemy wyœwietlaæ
 	wxPaintDC paintDC(this);
 	wxMemoryDC memoryDC;
