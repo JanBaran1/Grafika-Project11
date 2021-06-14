@@ -5,6 +5,7 @@
 #include <wx/dcscreen.h>
 #include <wx/dcclient.h>
 #include <wx/panel.h>
+
 void RGBtoHSL(double R, double G, double B, double& H, double& S, double& L);
 void HSLtoRGB(double &R, double &G, double &B, double H, double S, double L);
 
@@ -40,6 +41,7 @@ class Hexagon : public wxPanel {
 	private:
 		static const int m_width = 200;
 		static const int m_height = 260;
+		
 
 		wxColour m_selectedColour = wxColour(127, 127, 127);
 		wxWindow* m_parent;

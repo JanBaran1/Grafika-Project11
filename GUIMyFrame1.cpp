@@ -85,11 +85,13 @@ hexagon->m_imageSuwak = MyImage.Copy();
 
 ChosenColour = wxColor(255, 255, 255);
 hexagon->setChosenColour(ChosenColour);
+
 DrawColour();
 DrawPicture(bright,sat);
 }
 
 }
+
 }
 
 void GUIMyFrame1::m_button2OnButtonClick( wxCommandEvent& event )
