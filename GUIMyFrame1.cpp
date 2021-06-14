@@ -1,5 +1,7 @@
 ﻿#include "GUIMyFrame1.h"
 
+unsigned int max(unsigned int x, unsigned int y, unsigned int z);
+
 GUIMyFrame1::GUIMyFrame1( wxWindow* parent )
 :
 MyFrame1( parent )
@@ -28,6 +30,12 @@ unsigned int c3 = data[3 * y_position * width + 3 * x_position + 2];
 ChosenColour = wxColour(c1, c2, c3);
 hexagon->setChosenColour(ChosenColour);
 
+
+unsigned int newSliderValue = max(c1, c2, c3);
+if (newSliderValue < 1) newSliderValue = 1;
+m_slider5->SetValue(newSliderValue);
+hexagon->setSliderValue(newSliderValue);
+m_slider5->Refresh();
 wxColour selectedColour = wxColour(ImageCpy.GetRed(x_position, y_position), ImageCpy.GetGreen(x_position, y_position), ImageCpy.GetBlue(x_position, y_position));
 hexagon->setSelectedColour(selectedColour);
 m_slider5->SetValue(hexagon->getSliderValue());
@@ -382,3 +390,15 @@ void GUIMyFrame1::Saturation(double value)
         }
     }
 }
+
+/*unsigned int max(unsigned int x, unsigned int y, unsigned int z) {
+    if (x > y)
+        if (x > z)
+            return x;
+        else
+            return z;
+    else
+        if (y > z)
+            return y;
+        else z;
+}*/
