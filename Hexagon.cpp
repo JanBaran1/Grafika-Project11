@@ -8,7 +8,7 @@
 #include <wx/frame.h>
 #include <wx/graphics.h>
 #include <wx/msgdlg.h>
-#include "ColoursHexagon.h"
+#include "Hexagon.h"
 
 #define MAX_COLOUR_VALUE 255
 #define BACKGROUND_COLOUR 171

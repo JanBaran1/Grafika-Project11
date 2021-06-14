@@ -24,7 +24,7 @@
     <ClCompile Include="GUIMyFrame1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ColoursHexagon.cpp">
+    <ClCompile Include="Hexagon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +35,7 @@
     <ClInclude Include="GUIMyFrame1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ColoursHexagon.h">
+    <ClInclude Include="Hexagon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
