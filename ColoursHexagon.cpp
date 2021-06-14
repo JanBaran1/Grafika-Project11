@@ -403,7 +403,7 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 		return;
 	}
 	if (this->getSelectedColour() != sear_colour) {
-		for (int multi = 0; multi < 4; multi++) {
+		for (int multi = 0; multi < 7; multi++) {
 			for (int i = 0; i < m_width; i++) {
 				for (int j = 0; j < m_height; j++) {
 					curr_colour.Set(image.GetRed(i, j), image.GetGreen(i, j), image.GetBlue(i, j));
@@ -411,10 +411,12 @@ void Hexagon::setSelectedColour(wxColour& sear_colour) { //skoñczone
 						|| ((abs(curr_colour.Red() - sear_colour.Red()) <= (10 * multi))
 							&& (abs(curr_colour.Green() - sear_colour.Green()) <= (10 * multi))
 							&& (abs(curr_colour.Blue() - sear_colour.Blue()) <= (10 * multi)))) {
-						setPointerPosition(i, j);
-						m_selectedColour = sear_colour;
-						this->Refresh();
-						return;
+						if (curr_colour != wxColour(BACKGROUND_COLOUR, BACKGROUND_COLOUR, BACKGROUND_COLOUR)) {
+							setPointerPosition(i, j);
+							m_selectedColour = sear_colour;
+							this->Refresh();
+							return;
+						}
 					}
 				}
 			}
