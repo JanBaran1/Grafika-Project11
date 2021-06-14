@@ -100,14 +100,23 @@ else
 ImageCpy.SaveFile(output_stream, "image/jpeg");
 }
 
+void GUIMyFrame1::m_checkBox1OnCheckBox( wxCommandEvent& event )
+{
+    if (event.IsChecked())
+        hexagon->is_checked = true;
+    else
+        hexagon->is_checked = false;
+    hexagon->m_image = hexagon->m_imageSuwak.Copy();
+    hexagon->ChangeColour(hexagon->getImage());
+    DrawPicture(bright, sat);
+}
+
 void GUIMyFrame1::m_slider1OnScroll( wxScrollEvent& event )
 {
 // TODO: Implement m_slider1OnScroll
 if (MyImage.IsOk())
 {
-//hexagon->setSuwak((m_slider1->GetValue() - 50.) / 10.);
 hexagon->setSuwak(m_slider1->GetValue());
-//hexagon->setImage(hexagon->getImageSuwak());
 hexagon->m_image = hexagon->m_imageSuwak.Copy();
 hexagon->ChangeColour(hexagon->getImage());
 DrawPicture(bright, sat);
@@ -118,6 +127,23 @@ DrawPicture(bright, sat);
 void GUIMyFrame1::m_slider1OnScrollChanged( wxScrollEvent& event )
 {
     hexagon->m_imageSuwak = hexagon->m_image.Copy();
+}
+
+void GUIMyFrame1::m_slider6OnScroll( wxScrollEvent& event )
+{
+    if (MyImage.IsOk())
+    {
+        hexagon->suwak2 = (m_slider6->GetValue() + 20)/2.;
+        hexagon->m_image = hexagon->m_imageSuwak.Copy();
+        hexagon->ChangeColour(hexagon->getImage());
+        DrawPicture(bright, sat);
+
+    }
+}
+
+void GUIMyFrame1::m_slider6OnScrollChanged( wxScrollEvent& event )
+{
+// TODO: Implement m_slider6OnScrollChanged
 }
 
 void GUIMyFrame1::m_slider2OnScroll( wxScrollEvent& event )
@@ -221,22 +247,6 @@ void GUIMyFrame1::DrawPicture(int bright,double sat)
    
 }
 
-void GUIMyFrame1::Repaint()
-{
-    //ImageCpy = MyImage;
-    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-   if (MyImage.IsOk())
-   {
-    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
-        MyBitmap = wxBitmap(ImageCpy);
-    }
-    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
-    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
-   // wxBufferedDC buffDC(&dc);
-    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
-    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
-}
-
 void GUIMyFrame1::ChangeColour(wxImage *Image)
 {
     if (true)
@@ -255,6 +265,22 @@ void GUIMyFrame1::ChangeColour(wxImage *Image)
             }
         }       
     }
+}
+
+void GUIMyFrame1::Repaint()
+{
+    //ImageCpy = MyImage;
+    //ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+   if (MyImage.IsOk())
+   {
+    ImageCpy.Rescale(m_panel3->GetSize().x, m_panel3->GetSize().y);
+        MyBitmap = wxBitmap(ImageCpy);
+    }
+    // Tworzymy tymczasowa bitmape na podstawie Img_Cpy
+    wxClientDC dc(m_panel3);   // Pobieramy kontekst okna
+   // wxBufferedDC buffDC(&dc);
+    m_panel3->PrepareDC(dc); // Musimy wywolac w przypadku wxScrolledWindow, zeby suwaki prawidlowo dzialaly
+    if (MyBitmap.Ok()) dc.DrawBitmap(MyBitmap, 0, 0, true); // Rysujemy bitmape na kontekscie urzadzenia
 }
 
 void GUIMyFrame1::Brightness(int value)
@@ -279,35 +305,6 @@ void GUIMyFrame1::Brightness(int value)
 
         piks[k++] = tmp;
     }  
-}
-
-void GUIMyFrame1::Saturation(double value)
-{
-    // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
-    //ImageCpy = MyImage.Copy();
-    //unsigned char* piks = ImageCpy.GetData();
-    hexagon->m_image = hexagon->m_imageSuwak.Copy();
-    unsigned char* piks = hexagon->m_image.GetData();
-
-    int rozmiar = 3 * hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
-    
-    double x = value ;
-    for (unsigned k = 0; k < rozmiar;k+=3) {
-        int szary = (piks[k] + piks[k + 1] + piks[k + 2]) / 3;
-        
-        for (int i = 0; i < 3; i++)
-        {
-           
-            int tmp = szary + (piks[k + i] - szary) *( x/100+1.0);
-
-            if (tmp > 255)
-                tmp = 255;
-            else if (tmp < 0)
-                tmp = 0;
-
-            piks[k + i] = tmp;
-        }
-    }
 }
 
 void GUIMyFrame1::SilaZmian(double value)
@@ -355,4 +352,33 @@ void GUIMyFrame1::SilaZmian(double value)
     }
 
 
+}
+
+void GUIMyFrame1::Saturation(double value)
+{
+    // TO DO: Zmiana jasnosci obrazu. value moze przyjmowac wartosci od -100 do 100
+    //ImageCpy = MyImage.Copy();
+    //unsigned char* piks = ImageCpy.GetData();
+    hexagon->m_image = hexagon->m_imageSuwak.Copy();
+    unsigned char* piks = hexagon->m_image.GetData();
+
+    int rozmiar = 3 * hexagon->m_image.GetWidth() * hexagon->m_image.GetHeight();
+    
+    double x = value ;
+    for (unsigned k = 0; k < rozmiar;k+=3) {
+        int szary = (piks[k] + piks[k + 1] + piks[k + 2]) / 3;
+        
+        for (int i = 0; i < 3; i++)
+        {
+           
+            int tmp = szary + (piks[k + i] - szary) *( x/100+1.0);
+
+            if (tmp > 255)
+                tmp = 255;
+            else if (tmp < 0)
+                tmp = 0;
+
+            piks[k + i] = tmp;
+        }
+    }
 }
